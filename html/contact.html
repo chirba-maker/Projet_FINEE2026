@@ -24,6 +24,7 @@
     </script>
     <link rel="stylesheet" href="../css/contact.css">
     <link rel="stylesheet" href="../css/footer_premium.css">
+    <link rel="stylesheet" href="../css/responsive.css">
 </head>
 <body class="bg-background font-sans text-on-background">
     <!-- TopNavBar -->
@@ -45,7 +46,7 @@
                     <a href="connexion.html" id="loginBtn" class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg active:scale-95 transition-transform flex items-center">Connexion</a>
                     <a href="inscription.html" class="px-5 py-2 text-sm font-semibold rounded-lg bg-on-tertiary-container text-white active:scale-95 transition-transform">S'inscrire</a>
                 </div>
-                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-600">
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-all" aria-label="Menu">
                     <span class="material-symbols-outlined text-3xl">menu</span>
                 </button>
             </div>
@@ -66,6 +67,7 @@
             <div id="scrollProgress" class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 w-0 transition-all duration-300"></div>
         </div>
     </nav>
+    <div id="menuOverlay" class="sidebar-overlay"></div>
 
     <main class="pt-24 pb-20 px-6 lg:px-12 max-w-screen-2xl mx-auto">
         <div class="grid lg:grid-cols-12 gap-12">
@@ -244,5 +246,22 @@
     <script src="../js/footer.js"></script>
 
     <script src="../js/contact.js"></script>
+    <script>
+    (function(){
+        const btn = document.getElementById('mobileMenuBtn');
+        const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('menuOverlay');
+        if (!btn || !menu) return;
+        const icon = btn.querySelector('.material-symbols-outlined');
+        function toggle(open) {
+            const isOpen = open !== undefined ? open : menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !isOpen);
+            if (overlay) overlay.classList.toggle('active', isOpen);
+            if (icon) icon.textContent = isOpen ? 'close' : 'menu';
+        }
+        btn.addEventListener('click', () => toggle());
+        if (overlay) overlay.addEventListener('click', () => toggle(false));
+    })();
+    </script>
 </body>
 </html>
