@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SEED INITIAL DATA (IF EMPTY) ---
     seedMockData();
 
+    let currentProjectId = null;
+
     // --- UI ELEMENTS ---
     const userNameSidebar = document.getElementById('userNameSidebar');
     const userFacultySidebar = document.getElementById('userFacultySidebar');
@@ -106,6 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.switchSection = function(sectionId) {
+        // Scroll to top to simulate page transition
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Close sidebar on mobile
+        if (sidebar && window.innerWidth < 768) {
+            sidebar.classList.add('-translate-x-full');
+        }
+
         navLinks.forEach(l => {
             l.classList.remove('active', 'text-primary', 'bg-white', 'shadow-sm');
             l.classList.add('text-slate-400');
@@ -387,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (els.init) {
             const profileImg = currentSession.profile_image;
             if (profileImg) {
-                els.init.innerHTML = `<img src="${profileImg}" class="w-full h-full object-cover rounded-[40px]">`;
+                els.init.innerHTML = `<img src="${profileImg}" class="w-full h-full object-cover rounded-2xl">`;
             } else {
                 els.init.textContent = `${currentSession.firstname[0]}${currentSession.lastname[0]}`;
                 els.init.innerHTML = `${currentSession.firstname[0]}${currentSession.lastname[0]}`;
@@ -417,6 +427,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editLastName').value = currentSession.lastname;
         document.getElementById('editEmail').value = currentSession.email;
         document.getElementById('editFaculty').value = currentSession.faculty || 'FST';
+        document.getElementById('editDepartment').value = currentSession.department || 'Informatique';
+        document.getElementById('editSexe').value = currentSession.sexe || 'Homme';
+        document.getElementById('editNiveau').value = currentSession.niveau || 'Licence 1';
 
         // Update profile preview
         const profilePreview = document.getElementById('profilePreview');
@@ -454,8 +467,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastname: document.getElementById('editLastName').value,
                 email: document.getElementById('editEmail').value,
                 faculty: document.getElementById('editFaculty').value,
+                department: document.getElementById('editDepartment').value,
+                sexe: document.getElementById('editSexe').value,
+                niveau: document.getElementById('editNiveau').value,
                 profile_image: form.dataset.tempImage || currentSession.profile_image
             };
+
+            const newPass = document.getElementById('editPassword').value;
+            if (newPass) updatedUser.password = newPass;
 
             // Update finee_session
             localStorage.setItem('finee_session', JSON.stringify(updatedUser));
@@ -563,6 +582,100 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('projectModal');
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        
+        // Store current project ID for editing
+        currentProjectId = projectId;
+    };
+
+    window.openEditProjectModal = function() {
+        if (!currentProjectId) return;
+        
+        const projects = JSON.parse(localStorage.getItem('finee_projects')) || [];
+        const p = projects.find(proj => proj.id == currentProjectId);
+        if (!p) return;
+
+        // Pre-fill form
+        document.getElementById('editProjectTitle').value = p.titre;
+        document.getElementById('editProjectCategory').value = p.categorie;
+        document.getElementById('editProjectProblem').value = p.problematique || "";
+        document.getElementById('editProjectSolution').value = p.solution || "";
+        document.getElementById('editProjectTeam').value = p.equipe;
+
+        // Close detail modal and open edit modal
+        closeProjectModal();
+        const modal = document.getElementById('editProjectModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    };
+
+    window.closeEditProjectModal = function() {
+        const modal = document.getElementById('editProjectModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    };
+
+    // Handle Edit Form Submission
+    const editForm = document.getElementById('editProjectForm');
+    if (editForm) {
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let projects = JSON.parse(localStorage.getItem('finee_projects')) || [];
+            const index = projects.findIndex(p => p.id == currentProjectId);
+            
+            if (index !== -1) {
+                // Update project data
+                projects[index].titre = document.getElementById('editProjectTitle').value;
+                projects[index].categorie = document.getElementById('editProjectCategory').value;
+                projects[index].problematique = document.getElementById('editProjectProblem').value;
+                projects[index].solution = document.getElementById('editProjectSolution').value;
+                projects[index].equipe = document.getElementById('editProjectTeam').value;
+                
+                // Save back to localStorage
+                localStorage.setItem('finee_projects', JSON.stringify(projects));
+                
+                // Refresh Dashboard UI
+                loadUserProjects();
+                
+                // Success feedback
+                alert("Projet mis à jour avec succès !");
+                closeEditProjectModal();
+            }
+        });
+    }
+
+    // --- DELETE PROJECT LOGIC ---
+    window.confirmDeleteProject = function() {
+        if (!currentProjectId) return;
+        const modal = document.getElementById('deleteConfirmModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    };
+
+    window.closeDeleteConfirm = function() {
+        const modal = document.getElementById('deleteConfirmModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    };
+
+    window.executeDeleteProject = function() {
+        if (!currentProjectId) return;
+        
+        let projects = JSON.parse(localStorage.getItem('finee_projects')) || [];
+        const filteredProjects = projects.filter(p => p.id != currentProjectId);
+        
+        // Save back to localStorage
+        localStorage.setItem('finee_projects', JSON.stringify(filteredProjects));
+        
+        // Refresh UI
+        loadUserProjects();
+        
+        // Close both modals
+        closeDeleteConfirm();
+        closeProjectModal();
+        
+        // Success feedback
+        alert("Projet supprimé avec succès.");
     };
 
     window.closeProjectModal = function() {

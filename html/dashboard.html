@@ -387,8 +387,13 @@
                                             <p class="text-[8px] text-white/40 font-bold uppercase tracking-[0.3em] mt-1">Innovation Portal</p>
                                         </div>
                                     </div>
-                                    <div class="px-4 py-1.5 bg-secondary/20 border border-secondary/30 rounded-full text-[9px] font-black text-secondary uppercase tracking-widest">
-                                        MEMBRE VÉRIFIÉ
+                                    <div class="flex items-center gap-4">
+                                        <div class="px-4 py-1.5 bg-secondary/20 border border-secondary/30 rounded-full text-[9px] font-black text-secondary uppercase tracking-widest">
+                                            MEMBRE VÉRIFIÉ
+                                        </div>
+                                        <div id="badgeInitials" class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-sm font-black cursor-pointer hover:scale-110 transition-transform active:scale-95" onclick="switchSection('settings')" title="Gérer mon profil">
+                                            JD
+                                        </div>
                                     </div>
                                 </div>
 
@@ -490,6 +495,47 @@
                                     <option value="FSAG">FSAG</option>
                                 </select>
                             </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest ml-1">Département</label>
+                                <select id="editDepartment" class="w-full p-4 rounded-2xl bg-slate-50 border-none focus:ring-4 focus:ring-primary/5 font-bold transition-all">
+                                    <!-- Options will be filtered by faculty if needed, but for settings we can list all or filter dynamically -->
+                                    <option value="Informatique">Informatique</option>
+                                    <option value="Mathématiques">Mathématiques</option>
+                                    <option value="Biologie Appliquée">Biologie Appliquée</option>
+                                    <option value="Energie Photovoltaïque">Energie Photovoltaïque</option>
+                                    <option value="Miage">Miage</option>
+                                    <option value="Chimie">Chimie</option>
+                                    <option value="Langue Arabe">Langue Arabe</option>
+                                    <option value="Sociologie">Sociologie</option>
+                                    <option value="Lettres Modernes">Lettres Modernes</option>
+                                    <option value="Anglais">Anglais</option>
+                                    <option value="Administration Publique">Administration Publique</option>
+                                    <option value="Économie">Économie</option>
+                                    <option value="Gestion">Gestion</option>
+                                    <option value="Économie Sociale et Solidaire">Économie Sociale et Solidaire</option>
+                                    <option value="Economie Statique">Economie Statique</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest ml-1">Sexe</label>
+                                <select id="editSexe" class="w-full p-4 rounded-2xl bg-slate-50 border-none focus:ring-4 focus:ring-primary/5 font-bold transition-all">
+                                    <option value="Homme">Homme</option>
+                                    <option value="Femme">Femme</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest ml-1">Niveau d'études</label>
+                                <select id="editNiveau" class="w-full p-4 rounded-2xl bg-slate-50 border-none focus:ring-4 focus:ring-primary/5 font-bold transition-all">
+                                    <option value="Licence 1">Licence 1</option>
+                                    <option value="Licence 2">Licence 2</option>
+                                    <option value="Licence 3">Licence 3</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest ml-1">Nouveau mot de passe</label>
+                                <input type="password" id="editPassword" placeholder="••••••••" class="w-full p-4 rounded-2xl bg-slate-50 border-none focus:ring-4 focus:ring-primary/5 font-bold transition-all">
+                                <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest ml-1">Laissez vide pour conserver l'actuel</p>
+                            </div>
                         </div>
 
                         <div class="pt-6 border-t border-slate-50 flex justify-end">
@@ -573,10 +619,76 @@
                 </div>
             </div>
 
-            <div class="flex justify-end gap-4">
-                <button onclick="closeProjectModal()" class="px-8 py-3 bg-slate-100 text-slate-500 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition-all">Fermer</button>
-                <button class="px-8 py-3 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all">Éditer le Projet</button>
+            <div class="flex justify-between items-center gap-4">
+                <button onclick="confirmDeleteProject()" class="px-6 py-3 bg-red-50 text-red-500 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">delete</span> Supprimer
+                </button>
+                <div class="flex gap-4">
+                    <button onclick="closeProjectModal()" class="px-8 py-3 bg-slate-100 text-slate-500 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-200 transition-all">Fermer</button>
+                    <button onclick="openEditProjectModal()" class="px-8 py-3 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all">Éditer le Projet</button>
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Project Modal -->
+<div id="editProjectModal" class="fixed inset-0 z-[100] bg-primary/40 backdrop-blur-md items-center justify-center hidden">
+    <div class="bg-white rounded-[40px] w-full max-w-2xl mx-6 shadow-2xl border border-white/20 animate-pop overflow-hidden">
+        <div class="p-8 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
+            <h3 class="text-xl font-black text-primary font-montserrat">Éditer le Projet</h3>
+            <button onclick="closeEditProjectModal()" class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-slate-400 hover:text-red-500 transition-all shadow-sm">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <form id="editProjectForm" class="p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Titre du Projet</label>
+                    <input type="text" id="editProjectTitle" required class="w-full px-5 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-primary/10 focus:bg-white outline-none font-bold text-primary transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Catégorie</label>
+                    <select id="editProjectCategory" required class="w-full px-5 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-primary/10 focus:bg-white outline-none font-bold text-primary transition-all">
+                        <option value="Énergie">Énergie</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Santé">Santé</option>
+                        <option value="Environnement">Environnement</option>
+                        <option value="Éducation">Éducation</option>
+                        <option value="Fintech">Fintech</option>
+                    </select>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Problématique</label>
+                <textarea id="editProjectProblem" rows="3" required class="w-full px-5 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-primary/10 focus:bg-white outline-none font-bold text-primary transition-all"></textarea>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Solution Proposée</label>
+                <textarea id="editProjectSolution" rows="3" required class="w-full px-5 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-primary/10 focus:bg-white outline-none font-bold text-primary transition-all"></textarea>
+            </div>
+            <div class="space-y-2">
+                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Équipe</label>
+                <input type="text" id="editProjectTeam" required class="w-full px-5 py-3 bg-slate-50 rounded-xl border-2 border-transparent focus:border-primary/10 focus:bg-white outline-none font-bold text-primary transition-all">
+            </div>
+            <div class="pt-4 flex justify-end gap-4">
+                <button type="button" onclick="closeEditProjectModal()" class="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">Annuler</button>
+                <button type="submit" class="px-10 py-3 bg-secondary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-secondary/20 hover:brightness-110 active:scale-95 transition-all">Enregistrer les modifications</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Delete Confirmation Modal -->
+<div id="deleteConfirmModal" class="fixed inset-0 z-[110] bg-primary/60 backdrop-blur-sm items-center justify-center hidden">
+    <div class="bg-white rounded-[40px] p-10 max-w-sm w-full mx-6 text-center shadow-2xl border border-white/20 animate-pop">
+        <div class="w-20 h-20 bg-red-50 rounded-[28px] flex items-center justify-center mx-auto mb-6 text-red-500">
+            <span class="material-symbols-outlined text-4xl">warning</span>
+        </div>
+        <h3 class="text-2xl font-black text-primary mb-2 font-montserrat">Supprimer le projet ?</h3>
+        <p class="text-slate-500 text-sm mb-8">Cette action est irréversible. Toutes les données liées à ce projet seront définitivement perdues.</p>
+        <div class="flex flex-col gap-3">
+            <button onclick="executeDeleteProject()" class="w-full py-4 bg-red-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-red-200 hover:bg-red-600 active:scale-95 transition-all">Confirmer la suppression</button>
+            <button onclick="closeDeleteConfirm()" class="w-full py-4 bg-slate-50 text-slate-400 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 transition-all">Annuler</button>
         </div>
     </div>
 </div>

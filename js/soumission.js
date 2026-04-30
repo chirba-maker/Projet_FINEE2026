@@ -4,7 +4,8 @@
  */
 
 let currentStep = 1;
-const totalSteps = 3;
+const totalSteps = 4;
+let selectedFiles = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Session Security
@@ -17,7 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Initialize UI
     showStep(currentStep);
 
-    // 3. Form Submission
+    // 3. File Upload Initialization
+    initFileUpload();
+
+    // 4. Form Submission
     const form = document.getElementById('submissionForm');
     if (form) {
         form.addEventListener('submit', (e) => {
@@ -28,6 +32,130 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+function initFileUpload() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+
+    if (!dropZone || !fileInput) return;
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-primary', 'bg-primary/10');
+    });
+
+    ['dragleave', 'drop'].forEach(event => {
+        dropZone.addEventListener(event, () => {
+            dropZone.classList.remove('border-primary', 'bg-primary/10');
+        });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const files = Array.from(e.dataTransfer.files);
+        handleFiles(files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        handleFiles(files);
+    });
+}
+
+function handleFiles(files) {
+    const fileList = document.getElementById('fileList');
+    
+    files.forEach(file => {
+        // Prevent duplicates
+        if (selectedFiles.some(f => f.name === file.name)) return;
+
+        const fileObj = {
+            id: Date.now() + Math.random(),
+            file: file,
+            name: file.name,
+            size: (file.size / 1024 / 1024).toFixed(2),
+            type: file.type,
+            progress: 0
+        };
+
+        selectedFiles.push(fileObj);
+        renderFileItem(fileObj);
+        simulateUpload(fileObj);
+    });
+}
+
+function renderFileItem(fileObj) {
+    const fileList = document.getElementById('fileList');
+    const isImage = fileObj.type.startsWith('image/');
+    
+    const div = document.createElement('div');
+    div.id = `file-${fileObj.id}`;
+    div.className = "flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm animate-pop relative overflow-hidden group";
+    
+    div.innerHTML = `
+        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 overflow-hidden border border-slate-100">
+            ${isImage ? `<img src="" class="w-full h-full object-cover hidden" id="preview-${fileObj.id}">` : ''}
+            <span class="material-symbols-outlined text-slate-400 ${isImage ? 'block' : ''}" id="icon-${fileObj.id}">
+                ${fileObj.type.includes('pdf') ? 'picture_as_pdf' : (fileObj.type.includes('zip') ? 'folder_zip' : 'description')}
+            </span>
+        </div>
+        <div class="flex-grow min-w-0">
+            <p class="text-sm font-black text-primary truncate pr-8">${fileObj.name}</p>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">${fileObj.size} MB</p>
+            <div class="mt-2 h-1 bg-slate-100 rounded-full overflow-hidden">
+                <div id="progress-${fileObj.id}" class="h-full bg-secondary transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </div>
+        <button type="button" onclick="removeFile(${fileObj.id})" class="absolute top-4 right-4 w-6 h-6 rounded-full bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all flex items-center justify-center">
+            <span class="material-symbols-outlined text-sm">close</span>
+        </button>
+    `;
+
+    fileList.appendChild(div);
+
+    // Image Preview
+    if (isImage) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.getElementById(`preview-${fileObj.id}`);
+            const icon = document.getElementById(`icon-${fileObj.id}`);
+            if (img && icon) {
+                img.src = e.target.result;
+                img.classList.remove('hidden');
+                icon.classList.add('hidden');
+            }
+        };
+        reader.readAsDataURL(fileObj.file);
+    }
+}
+
+function simulateUpload(fileObj) {
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 30;
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+            const item = document.getElementById(`file-${fileObj.id}`);
+            if (item) item.classList.add('border-green-100', 'bg-green-50/20');
+        }
+        const bar = document.getElementById(`progress-${fileObj.id}`);
+        if (bar) bar.style.width = progress + '%';
+        fileObj.progress = progress;
+    }, 300);
+}
+
+window.removeFile = function(id) {
+    selectedFiles = selectedFiles.filter(f => f.id != id);
+    const item = document.getElementById(`file-${id}`);
+    if (item) {
+        item.classList.add('scale-90', 'opacity-0');
+        setTimeout(() => item.remove(), 300);
+    }
+}
 
 function showStep(n) {
     const steps = document.querySelectorAll(".step-content");
@@ -116,6 +244,7 @@ function saveProject() {
         problematique: document.getElementById("projectProblem").value,
         solution: document.getElementById("projectSolution").value,
         equipe: document.getElementById("projectTeam").value,
+        documents: selectedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
         user_id: session.id,
         prenom: session.firstname,
         nom: session.lastname,

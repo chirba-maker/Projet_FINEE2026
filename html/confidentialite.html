@@ -13,10 +13,53 @@
             theme: {
               extend: {
                 "colors": {
-                        "primary": "#1A365D",
-                        "secondary": "#00B5D8",
+                        "primary-container": "#1a365d",
+                        "outline": "#74777f",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#adc7f7",
+                        "secondary-fixed-dim": "#4bd6fa",
+                        "tertiary-container": "#572900",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "primary": "#002045",
+                        "outline-variant": "#c4c6cf",
+                        "on-surface-variant": "#43474e",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#86a0cd",
+                        "secondary-container": "#4fd9fd",
+                        "surface-container-highest": "#e0e3e5",
                         "background": "#f7fafc",
-                        "on-surface": "#181c1e"
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d7dadc",
+                        "surface-container": "#ebeef0",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#00677c",
+                        "secondary-fixed": "#b2ebff",
+                        "on-secondary-fixed": "#001f27",
+                        "surface": "#f7fafc",
+                        "on-background": "#181c1e",
+                        "surface-bright": "#f7fafc",
+                        "on-secondary-container": "#005c70",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#371800",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "surface-tint": "#455f88",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eef1f3",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "on-tertiary-container": "#e88532",
+                        "on-secondary-fixed-variant": "#004e5e",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e5e9eb",
+                        "primary-fixed-dim": "#adc7f7",
+                        "tertiary-fixed": "#ffdcc5",
+                        "error": "#ba1a1a",
+                        "on-surface": "#181c1e",
+                        "on-tertiary-fixed": "#301400",
+                        "surface-container-low": "#f1f4f6",
+                        "on-primary-fixed": "#001b3c"
                 }
               }
             }
@@ -139,7 +182,7 @@
         } else {
             headerActions.innerHTML = `
                 <a href="connexion.html" class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg active:scale-95 transition-transform">Connexion</a>
-                <a href="inscription.html" class="px-5 py-2 text-sm font-semibold rounded-lg bg-secondary text-white active:scale-95 transition-transform">S'inscrire</a>
+                <a href="inscription.html" class="px-5 py-2 text-sm font-semibold rounded-lg bg-on-tertiary-container text-white active:scale-95 transition-transform">S'inscrire</a>
             `;
         }
     </script>

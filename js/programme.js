@@ -76,6 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Scroll Progress
     initScrollProgress();
+
+    // 5. Download Agenda
+    const downloadBtn = document.getElementById('downloadAgendaBtn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', downloadAgendaPDF);
+    }
 });
 
 function initNavigation() {
@@ -210,6 +216,71 @@ window.closeSpeakerModal = function() {
     modal.classList.add('hidden');
     document.body.style.overflow = 'auto';
 };
+
+async function downloadAgendaPDF() {
+    const btn = document.getElementById('downloadAgendaBtn');
+    const originalContent = btn.innerHTML;
+    
+    // Premium Loading State
+    btn.disabled = true;
+    btn.innerHTML = `
+        <span class="material-symbols-outlined animate-spin">sync</span>
+        <span class="font-black text-xs uppercase tracking-widest">Génération du PDF...</span>
+    `;
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const agendaContainer = document.getElementById('sessions-list');
+        
+        // Use html2canvas to capture the agenda
+        // We use a higher scale for better quality
+        const canvas = await html2canvas(agendaContainer, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#F8FAFC'
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        // Add header to PDF
+        pdf.setFillColor(0, 32, 69); // Primary color
+        pdf.rect(0, 0, pdfWidth, 40, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(22);
+        pdf.text('AGENDA OFFICIEL - FINEE 2026', 15, 25);
+        pdf.setFontSize(10);
+        pdf.text('Université de Labé - Guinée', 15, 33);
+
+        // Add the captured agenda
+        pdf.addImage(imgData, 'PNG', 0, 45, pdfWidth, pdfHeight);
+        
+        // Save PDF
+        pdf.save('Agenda_FINEE_2026.pdf');
+
+        // Success feedback
+        btn.innerHTML = `
+            <span class="material-symbols-outlined text-green-400">check_circle</span>
+            <span class="font-black text-xs uppercase tracking-widest">Document Téléchargé</span>
+        `;
+    } catch (error) {
+        console.error("PDF Generation error:", error);
+        btn.innerHTML = `
+            <span class="material-symbols-outlined text-red-400">error</span>
+            <span class="font-black text-xs uppercase tracking-widest">Erreur</span>
+        `;
+    } finally {
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+        }, 3000);
+    }
+}
 
 function initScrollProgress() {
     window.addEventListener('scroll', () => {
