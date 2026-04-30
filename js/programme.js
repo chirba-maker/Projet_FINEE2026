@@ -1,0 +1,222 @@
+/**
+ * Programme Logic - FINEE 2026
+ * Dynamic Rendering & Bento Layout Support
+ */
+
+const MOCK_PROGRAMME = [
+    { 
+        id: 1, 
+        jour: 1, 
+        titre: "L'Intelligence Artificielle au service de la Recherche", 
+        heure_debut: "09:00", 
+        heure_fin: "10:30", 
+        type: "Keynote", 
+        lieu: "Grand Amphi", 
+        intervenant: "Dr. Elena Volkov", 
+        bio: "Directrice Innovation, MIT Research. Experte mondiale en IA générative.",
+        img: "https://i.pravatar.cc/150?u=elena",
+        desc: "Introduction aux nouveaux paradigmes de l'IA générative et leur impact sur le cursus universitaire en 2026."
+    },
+    { 
+        id: 2, 
+        jour: 1, 
+        titre: "Atelier Blockchain & Transparence", 
+        heure_debut: "11:00", 
+        heure_fin: "12:30", 
+        type: "Workshop", 
+        lieu: "Lab 1", 
+        intervenant: "Jean-Baptiste Durand", 
+        bio: "CTO @ ChainSecure Labs. Pionnier de la blockchain en Afrique de l'Ouest.",
+        img: "https://i.pravatar.cc/150?u=jb",
+        desc: "Mise en place d'un système de vote électronique sécurisé pour les instances universitaires."
+    },
+    { 
+        id: 3, 
+        jour: 2, 
+        titre: "Startup Pitch : Le futur de l'EdTech", 
+        heure_debut: "14:00", 
+        heure_fin: "15:30", 
+        type: "Pitch", 
+        lieu: "Innovation Hub", 
+        intervenant: "Équipe Finalistes", 
+        bio: "Les 5 meilleurs projets innovants de l'édition 2026.",
+        img: "https://i.pravatar.cc/150?u=pitch",
+        desc: "Présentation des 5 projets finalistes du concours d'innovation FINEE 2026. Vote du public en direct."
+    },
+    { 
+        id: 4, 
+        jour: 3, 
+        titre: "Cérémonie de Clôture & Networking", 
+        heure_debut: "17:00", 
+        heure_fin: "19:00", 
+        type: "Cérémonie", 
+        lieu: "Jardins de l'Université", 
+        intervenant: "Rectorat de Labé", 
+        bio: "Célébration des talents et remise des prix de l'innovation.",
+        img: "https://i.pravatar.cc/150?u=closing",
+        desc: "Clôture officielle du forum, remise des prix et cocktail de réseautage pour les participants."
+    }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Session & Header Actions
+    initNavigation();
+    
+    // 2. Tab Switching
+    const tabs = document.querySelectorAll('.day-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const day = tab.getAttribute('data-day');
+            switchDay(day);
+        });
+    });
+
+    // 3. Initial Render
+    switchDay(1);
+
+    // 4. Scroll Progress
+    initScrollProgress();
+});
+
+function initNavigation() {
+    const session = JSON.parse(localStorage.getItem('finee_session'));
+    const headerActions = document.getElementById('headerActions');
+    const mobileHeaderActions = document.getElementById('mobileHeaderActions');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (session) {
+        const update = (container) => {
+            if (container) {
+                container.innerHTML = `
+                    <a href="dashboard.html" class="px-5 py-2 text-sm font-bold text-primary border border-primary rounded-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">dashboard</span> Mon Espace
+                    </a>
+                    <button class="logoutBtn px-5 py-2 text-sm font-bold rounded-lg bg-slate-100 text-slate-500">Déconnexion</button>
+                `;
+            }
+        };
+        update(headerActions);
+        update(mobileHeaderActions);
+        
+        document.querySelectorAll('.logoutBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                localStorage.removeItem('finee_session');
+                window.location.reload();
+            });
+        });
+    }
+
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    }
+}
+
+function switchDay(day) {
+    // Update Tabs
+    document.querySelectorAll('.day-tab').forEach(t => {
+        t.classList.remove('active', 'bg-white', 'shadow-md', 'text-primary');
+        t.classList.add('text-slate-400');
+        if (t.getAttribute('data-day') == day) {
+            t.classList.add('active', 'bg-white', 'shadow-md', 'text-primary');
+            t.classList.remove('text-slate-400');
+        }
+    });
+
+    // Render Sessions
+    const container = document.getElementById('sessions-list');
+    const sessions = MOCK_PROGRAMME.filter(s => s.jour == day);
+
+    if (sessions.length === 0) {
+        container.innerHTML = `
+            <div class="p-12 text-center bg-white rounded-3xl border border-slate-100">
+                <span class="material-symbols-outlined text-5xl text-slate-200 mb-4">event_busy</span>
+                <p class="text-slate-400 font-bold">Aucune session prévue pour ce jour.</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = sessions.map(s => renderSessionCard(s)).join('');
+}
+
+function renderSessionCard(s) {
+    const typeColors = {
+        'Keynote': 'bg-primary-container text-white',
+        'Workshop': 'bg-primary text-white border-l-4 border-cyan-400',
+        'Pitch': 'bg-[#1A365D] text-white',
+        'Cérémonie': 'bg-slate-900 text-white'
+    };
+
+    const typeIcons = {
+        'Keynote': 'mic',
+        'Workshop': 'school',
+        'Pitch': 'rocket',
+        'Cérémonie': 'celebration'
+    };
+
+    return `
+        <div class="glass-card rounded-[32px] overflow-hidden flex flex-col md:flex-row group transition-all hover:shadow-2xl hover:-translate-y-1 animate-fade-in-up">
+            <div class="md:w-48 ${typeColors[s.type] || 'bg-primary text-white'} p-8 flex flex-col justify-center items-center md:items-start">
+                <span class="text-3xl font-black">${s.heure_debut}</span>
+                <span class="text-xs opacity-60 font-bold">${s.heure_fin}</span>
+                <div class="mt-6 flex items-center gap-2 px-3 py-1.5 bg-white/10 rounded-full border border-white/20">
+                    <span class="material-symbols-outlined text-[14px]">${typeIcons[s.type] || 'schedule'}</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${s.type}</span>
+                </div>
+            </div>
+            <div class="flex-grow p-8 md:p-10 flex flex-col justify-between bg-white/50">
+                <div>
+                    <h2 class="text-2xl font-black text-primary mb-4 leading-tight">${s.titre}</h2>
+                    <p class="text-slate-500 line-clamp-2 mb-8 font-medium">${s.desc}</p>
+                </div>
+                <div class="flex items-center justify-between pt-6 border-t border-slate-100/50">
+                    <div class="flex items-center gap-4 cursor-pointer hover:opacity-80 transition-all" onclick="openSpeakerModal(${s.id})">
+                        <div class="w-12 h-12 rounded-2xl border-2 border-cyan-400/30 overflow-hidden shadow-inner">
+                            <img src="${s.img}" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-black text-primary text-sm">${s.intervenant}</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Intervenant</p>
+                        </div>
+                    </div>
+                    <button onclick="openSpeakerModal(${s.id})" class="text-cyan-600 font-black text-[10px] uppercase tracking-widest hover:underline underline-offset-4">Détails →</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+window.openSpeakerModal = function(id) {
+    const session = MOCK_PROGRAMME.find(s => s.id === id);
+    if (!session) return;
+
+    document.getElementById('speakerName').textContent = session.intervenant;
+    document.getElementById('speakerTitle').textContent = session.type === 'Keynote' ? 'Conférencier Principal' : 'Intervenant Expert';
+    document.getElementById('speakerBio').textContent = session.bio;
+    document.getElementById('speakerSession').textContent = session.titre;
+    document.getElementById('speakerImg').src = session.img;
+
+    const expertise = document.getElementById('speakerExpertise');
+    expertise.innerHTML = `<span class="px-3 py-1.5 bg-cyan-50 text-cyan-600 rounded-xl text-[10px] font-black uppercase tracking-widest">${session.type}</span>`;
+
+    const modal = document.getElementById('speakerModal');
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeSpeakerModal = function() {
+    const modal = document.getElementById('speakerModal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+};
+
+function initScrollProgress() {
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const bar = document.getElementById('scrollProgress');
+        if (bar) bar.style.width = scrolled + '%';
+    });
+}

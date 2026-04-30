@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="light" lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Programme | FINEE 2026</title>
+    <script src="../lib/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/programme.css">
+    <link rel="stylesheet" href="../css/footer_premium.css">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#002045",
+                        "secondary": "#00677c",
+                        "secondary-container": "#4fd9fd",
+                        "background": "#f7fafc",
+                        "on-tertiary-container": "#e88532",
+                        "primary-container": "#1a365d",
+                        "surface": "#f7fafc",
+                        "on-surface": "#181c1e",
+                        "on-surface-variant": "#43474e",
+                        "outline-variant": "#c4c6cf"
+                    },
+                    "fontFamily": {
+                        "h1": ["Montserrat"],
+                        "h2": ["Montserrat"],
+                        "h3": ["Montserrat"],
+                        "body": ["Open Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface font-body text-on-surface flex flex-col min-h-screen antialiased">
+    
+    <!-- Navigation (Shared Component) -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="grid grid-cols-3 items-center h-24 px-6 lg:px-12 max-w-7xl mx-auto w-full">
+            <div class="flex items-center justify-start h-full py-0">
+                <a href="index.html" class="block">
+                    <img src="../assets/finee_2026_logo.svg" alt="FINEE 2026 Logo" class="h-20 w-auto drop-shadow-lg hover:scale-105 transition-transform duration-300">
+                </a>
+            </div>
+            <div class="hidden md:flex justify-center items-center space-x-8 text-sm font-bold">
+                <a class="text-slate-600 hover:text-primary transition-colors" href="index.html">Accueil</a>
+                <a class="text-primary border-b-2 border-primary pb-1" href="programme.html">Programme</a>
+                <a class="text-slate-600 hover:text-primary transition-colors" href="contact.html">Contact</a>
+            </div>
+            <div class="flex justify-end items-center gap-4">
+                <div class="hidden md:flex items-center gap-4" id="headerActions">
+                    <a href="connexion.html" id="loginBtn" class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg active:scale-95 transition-transform flex items-center">Connexion</a>
+                    <a href="inscription.html" class="px-5 py-2 text-sm font-semibold rounded-lg bg-on-tertiary-container text-white active:scale-95 transition-transform">S'inscrire</a>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-600">
+                    <span class="material-symbols-outlined text-3xl">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Scroll Progress Bar -->
+        <div class="absolute bottom-0 left-0 w-full h-[3px] bg-slate-100 overflow-hidden">
+            <div id="scrollProgress" class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 w-0 transition-all duration-300"></div>
+        </div>
+        <!-- Mobile Menu (Shared) -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 p-6 space-y-4 shadow-xl">
+            <a class="block text-slate-600 hover:text-primary" href="index.html">Accueil</a>
+            <a class="block text-primary font-bold" href="programme.html">Programme</a>
+            <a class="block text-slate-600 hover:text-primary" href="contact.html">Contact</a>
+            <hr class="border-slate-100">
+            <div id="mobileHeaderActions" class="space-y-3">
+                <a href="connexion.html" class="block w-full text-center px-5 py-3 text-sm font-semibold text-primary border border-primary rounded-lg">Connexion</a>
+                <a href="inscription.html" class="block w-full text-center px-5 py-3 text-sm font-semibold rounded-lg bg-on-tertiary-container text-white">S'inscrire</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 pb-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            
+            <!-- Hero Header -->
+            <div class="mb-16 animate-fade-in-up">
+                <span class="inline-block px-3 py-1 bg-cyan-100 text-cyan-900 rounded-full font-bold text-[10px] mb-4 uppercase tracking-[0.2em]">15-17 Mai 2026</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-primary mb-6 tracking-tight">Le Programme Académique</h1>
+                <p class="text-lg text-on-surface-variant max-w-2xl leading-relaxed">L'innovation au service de l'excellence académique. Découvrez trois jours d'échanges intenses entre le monde de la recherche et l'écosystème tech.</p>
+            </div>
+
+            <!-- Bento Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                
+                <!-- Sidebar Filters -->
+                <aside class="lg:col-span-3">
+                    <div class="sticky top-32 space-y-8">
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 class="font-black text-primary mb-6 text-lg tracking-tight">Filtrer par catégorie</h3>
+                            <div class="space-y-4">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input checked type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+                                    <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Toutes les sessions</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+                                    <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Conférences</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+                                    <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Ateliers</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="w-5 h-5 rounded border-slate-200 text-primary focus:ring-primary/20 transition-all"/>
+                                    <span class="text-sm font-bold text-slate-600 group-hover:text-primary transition-colors">Pitchs Innovation</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="bg-primary p-8 rounded-3xl text-white shadow-xl shadow-primary/20 relative overflow-hidden group">
+                            <div class="absolute -right-4 -top-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="material-symbols-outlined text-cyan-400">info</span>
+                                    <h4 class="font-bold uppercase tracking-widest text-[10px]">Info Pratique</h4>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed mb-6">L'accès aux ateliers nécessite une inscription préalable via le portail étudiant FINEE.</p>
+                                <a href="inscription.html" class="block w-full py-3 bg-cyan-400 text-primary font-black rounded-xl text-[10px] text-center uppercase tracking-widest hover:brightness-110 transition-all">S'inscrire aux ateliers</a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Agenda Section -->
+                <div class="lg:col-span-9 space-y-8">
+                    
+                    <!-- Day Tabs -->
+                    <div class="flex items-center gap-3 bg-slate-100 p-2 rounded-2xl w-fit mb-10">
+                        <button class="day-tab active px-8 py-4 rounded-xl font-black transition-all flex flex-col items-center" data-day="1">
+                            <span class="text-[9px] uppercase tracking-[0.2em] opacity-40">Jour 01</span>
+                            <span class="text-sm">15 Mai</span>
+                        </button>
+                        <button class="day-tab px-8 py-4 rounded-xl text-slate-400 font-black hover:bg-white/50 transition-all flex flex-col items-center" data-day="2">
+                            <span class="text-[9px] uppercase tracking-[0.2em] opacity-40">Jour 02</span>
+                            <span class="text-sm">16 Mai</span>
+                        </button>
+                        <button class="day-tab px-8 py-4 rounded-xl text-slate-400 font-black hover:bg-white/50 transition-all flex flex-col items-center" data-day="3">
+                            <span class="text-[9px] uppercase tracking-[0.2em] opacity-40">Jour 03</span>
+                            <span class="text-sm">17 Mai</span>
+                        </button>
+                    </div>
+
+                    <!-- Sessions Container -->
+                    <div id="sessions-list" class="space-y-6">
+                        <!-- Dynamic Content from JS -->
+                        <div class="animate-pulse space-y-6">
+                            <div class="h-48 bg-slate-100 rounded-3xl w-full"></div>
+                            <div class="h-48 bg-slate-100 rounded-3xl w-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fixed bottom-12 right-12 z-40">
+        <button class="flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-full shadow-2xl hover:bg-primary/90 transition-all group active:scale-95 shadow-primary/30">
+            <span class="material-symbols-outlined group-hover:rotate-12 transition-transform">download</span>
+            <span class="font-black text-xs uppercase tracking-widest">Télécharger l'agenda (PDF)</span>
+        </button>
+    </div>
+
+    <!-- Speaker Detail Modal -->
+    <div id="speakerModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm">
+        <div class="bg-white rounded-[40px] max-w-2xl w-full overflow-hidden shadow-2xl animate-in zoom-in duration-300 border border-white">
+            <div class="relative h-48 bg-gradient-to-r from-primary to-secondary">
+                <button onclick="closeSpeakerModal()" class="absolute top-6 right-6 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                <div class="absolute -bottom-12 left-10">
+                    <img id="speakerImg" src="" alt="Speaker" class="w-32 h-32 rounded-3xl object-cover border-4 border-white shadow-xl bg-slate-200">
+                </div>
+            </div>
+            <div class="pt-16 p-10">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <h2 id="speakerName" class="text-3xl font-black text-primary">Nom de l'intervenant</h2>
+                        <p id="speakerTitle" class="text-sm font-bold text-cyan-600 uppercase tracking-widest mt-1">Titre / Rôle</p>
+                    </div>
+                    <a href="#" class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-primary hover:bg-cyan-50 hover:text-cyan-600 transition-all">
+                        <span class="material-symbols-outlined">share</span>
+                    </a>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Biographie</h4>
+                        <p id="speakerBio" class="text-slate-600 leading-relaxed font-medium italic">Chargement...</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-8 pt-8 border-t border-slate-50">
+                        <div>
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Expertise</h4>
+                            <div id="speakerExpertise" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <div>
+                            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Session au Forum</h4>
+                            <p id="speakerSession" class="text-sm font-black text-primary">Titre de la session</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+      <div class="footer-topline"></div>
+      <div class="footer-main">
+    
+        <!-- ── COL 1 : BRAND ── -->
+        <div class="footer-brand">
+          <a href="index.html" class="logo-wrap mb-6 block">
+            <img src="../assets/finee_2026_logo.svg" alt="FINEE 2026 Logo" class="h-24 w-auto drop-shadow-lg hover:scale-110 transition-transform duration-300">
+          </a>
+    
+          <p>Forum de l'Innovation Numérique et de l'Entrepreneuriat Étudiant — un événement organisé par l'Université de Labé.</p>
+    
+          <div class="social-links">
+            <a href="#" title="Facebook">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" title="LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="#" title="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+    
+        <div class="footer-col">
+          <h4>Liens Rapides</h4>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="programme.html">Programme</a></li>
+            <li><a href="inscription.html">Inscription</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+    
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="icon">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <span>Université de Labé, Guinée</span>
+            </div>
+            <div class="contact-item">
+              <div class="icon">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <span>contact@finee2026.org</span>
+            </div>
+            <div class="contact-item">
+              <div class="icon">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <span>+224 6XX XXX XXX</span>
+            </div>
+          </div>
+        </div>
+    
+        <div class="footer-newsletter">
+          <h4>Newsletter</h4>
+          <p>Restez informé des dernières actualités pour FINEE 2026.</p>
+          <div class="newsletter-form">
+            <input type="email" placeholder="Votre adresse e-mail"/>
+            <button type="button">S'abonner →</button>
+          </div>
+          <div class="event-badge">
+            <div class="pulse"></div>
+            <span>Événement 2026 — Inscriptions ouvertes</span>
+          </div>
+        </div>
+    
+      </div>
+    
+      <div class="footer-divider"></div>
+    
+      <div class="footer-bottom">
+        <p class="copy">© 2026 <strong>FINEE Forum</strong>. Université de Labé — Tous droits réservés.</p>
+        <div class="legal-links">
+          <a href="#">Confidentialité</a>
+          <a href="#">Mentions légales</a>
+        </div>
+        <p class="made-by">Conçu avec <span>♥</span> pour l'innovation</p>
+      </div>
+    </footer>
+
+    <script src="../js/programme.js"></script>
+</body>
+</html>
