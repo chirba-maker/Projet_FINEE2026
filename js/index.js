@@ -27,13 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mobile Menu Toggle
+    // Mobile Menu Toggle with icon + overlay
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
     if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        const menuIcon = mobileMenuBtn.querySelector('.material-symbols-outlined');
+        function toggleMobileMenu(open) {
+            const isOpen = open !== undefined ? open : mobileMenu.classList.contains('hidden');
+            mobileMenu.classList.toggle('hidden', !isOpen);
+            if (menuOverlay) menuOverlay.classList.toggle('active', isOpen);
+            if (menuIcon) menuIcon.textContent = isOpen ? 'close' : 'menu';
+        }
+        mobileMenuBtn.addEventListener('click', () => toggleMobileMenu());
+        if (menuOverlay) menuOverlay.addEventListener('click', () => toggleMobileMenu(false));
     }
 
     // 2. Hero Image Slider (Enhanced)

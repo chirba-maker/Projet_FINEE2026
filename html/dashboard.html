@@ -69,11 +69,17 @@
         <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="settings">
             <span class="material-symbols-outlined">settings</span> Paramètres
         </a>
+
+        <div class="pt-8 mt-8 border-t border-slate-50">
+            <a href="index.html" class="flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-accent hover:bg-accent/5 transition-all group">
+                <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">home</span> Retour au Site
+            </a>
+        </div>
     </nav>
 
     <div class="pt-8 space-y-4">
         <!-- Profile moved to bottom -->
-        <div class="p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group overflow-hidden">
+        <div class="p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group overflow-hidden cursor-pointer active:scale-95 transition-all" onclick="switchSection('settings')">
             <div class="absolute -right-4 -top-4 w-16 h-16 bg-primary/5 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
             <div class="relative flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-primary text-white shadow-lg flex items-center justify-center text-xs font-black" id="userInitialsSidebar">JD</div>
@@ -103,14 +109,19 @@
             <button id="toggleSidebar" class="md:hidden text-primary p-2 hover:bg-slate-50 rounded-xl transition-all">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <h1 class="text-xl font-black text-primary tracking-tight" id="sectionTitle">Tableau de Bord</h1>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center justify-center w-10 h-10 bg-slate-50 text-slate-400 hover:text-primary hover:bg-slate-100 rounded-xl transition-all border border-slate-100 group" title="Retour à l'accueil">
+                    <span class="material-symbols-outlined text-[22px] group-hover:scale-110 transition-transform">home</span>
+                </a>
+                <h1 class="text-xl font-black text-primary tracking-tight" id="sectionTitle">Tableau de Bord</h1>
+            </div>
         </div>
         <div class="flex items-center gap-6">
             <div class="hidden sm:flex items-center gap-2 px-4 py-2 bg-green-50 rounded-xl border border-green-100">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 <span class="text-[10px] font-black text-green-600 uppercase tracking-widest">Session Active</span>
             </div>
-            <div class="flex items-center gap-3 p-1.5 pr-4 bg-slate-50 rounded-full border border-slate-100">
+            <div class="flex items-center gap-3 p-1.5 pr-4 bg-slate-50 rounded-full border border-slate-100 cursor-pointer hover:bg-slate-100 active:scale-95 transition-all" onclick="switchSection('settings')">
                 <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-[10px] font-black" id="userHeaderInitials">JD</div>
                 <span class="text-xs font-bold text-primary" id="userHeaderName">Chargement...</span>
             </div>
@@ -124,16 +135,13 @@
             <div id="section-overview" class="dashboard-section space-y-8">
                 <!-- Hero Greeting -->
                 <section class="relative overflow-hidden rounded-[40px] p-12 bg-primary text-white shadow-2xl shadow-primary/20 animate-fade-in">
-                    <div class="absolute top-0 right-0 w-1/2 h-full pointer-events-none">
-                        <svg class="h-full w-full" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <clipPath id="blobClip">
-                                    <path d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,77.3,-44.7C85.4,-31.3,90.5,-15.7,89.2,-0.8C87.8,14.2,80,28.4,70.5,41.2C61,54.1,49.8,65.6,36.5,72.6C23.1,79.6,7.6,82.1,-7.8,80.7C-23.2,79.4,-38.5,74.2,-51.7,65.1C-64.8,55.9,-75.8,42.8,-81.2,28.2C-86.6,13.6,-86.3,-2.4,-82.1,-17.1C-77.8,-31.8,-69.6,-45.2,-58,-53C-46.5,-60.9,-31.5,-63.1,-18.2,-70.4C-4.8,-77.7,6.8,-90.1,22.1,-89.9C37.3,-89.8,56.2,-77.1,44.7,-76.4Z" transform="translate(100 100)"></path>
-                                </clipPath>
-                            </defs>
-                            <path d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,77.3,-44.7C85.4,-31.3,90.5,-15.7,89.2,-0.8C87.8,14.2,80,28.4,70.5,41.2C61,54.1,49.8,65.6,36.5,72.6C23.1,79.6,7.6,82.1,-7.8,80.7C-23.2,79.4,-38.5,74.2,-51.7,65.1C-64.8,55.9,-75.8,42.8,-81.2,28.2C-86.6,13.6,-86.3,-2.4,-82.1,-17.1C-77.8,-31.8,-69.6,-45.2,-58,-53C-46.5,-60.9,-31.5,-63.1,-18.2,-70.4C-4.8,-77.7,6.8,-90.1,22.1,-89.9C37.3,-89.8,56.2,-77.1,44.7,-76.4Z" fill="#4fd9fd" transform="translate(100 100)" opacity="0.15"></path>
-                            <image id="welcomeUserImg" x="0" y="0" width="200" height="200" clip-path="url(#blobClip)" preserveAspectRatio="xMidYMid slice" href="" opacity="0.8"></image>
-                        </svg>
+                    <div class="absolute top-1/2 -translate-y-1/2 right-8 w-48 h-48 cursor-pointer group active:scale-95 transition-transform" onclick="switchSection('settings')">
+                        <div class="relative w-full h-full rounded-full border-4 border-white/20 shadow-2xl overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-secondary-container/10 to-primary/20 group-hover:from-secondary-container/30 transition-all"></div>
+                            <img id="welcomeUserImg" src="" class="w-full h-full object-cover object-top opacity-0 transition-opacity duration-500 relative z-10" alt="User profile">
+                        </div>
+                        <!-- Decorative ring -->
+                        <div class="absolute -inset-4 border border-white/10 rounded-full animate-pulse"></div>
                     </div>
                     <div class="relative z-10">
                         <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] font-black uppercase tracking-[0.2em] mb-6">Édition Spéciale 2026</span>
@@ -492,8 +500,12 @@
     </div>
 
     <!-- Footer -->
-    <footer class="p-10 border-t border-slate-100 text-center">
-        <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.2em]">© 2026 FINEE Forum • Innovation & Excellence Labé</p>
+    <footer class="p-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">© 2026 FINEE Forum • Université de Labé</p>
+        <div class="flex gap-6">
+            <a href="confidentialite.html" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors">Confidentialité</a>
+            <a href="mentions_legales.html" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-primary transition-colors">Mentions Légales</a>
+        </div>
     </footer>
 </main>
 

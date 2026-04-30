@@ -1,0 +1,346 @@
+/* ══════════════════════════════════════════════════════
+   FINEE 2026 — GLOBAL RESPONSIVE & PREMIUM DESIGN SYSTEM
+   Applied to: all pages
+   ══════════════════════════════════════════════════════ */
+
+/* ─── Base Reset & Tokens ─── */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --primary:   #002045;
+  --secondary: #00677c;
+  --accent:    #e88532;
+  --surface:   #f7fafc;
+  --white:     #ffffff;
+  --shadow-sm: 0 4px 16px -4px rgba(0,32,69,.08);
+  --shadow-lg: 0 20px 48px -16px rgba(0,32,69,.16);
+  --radius-card: 1.5rem;
+  --radius-btn:  .75rem;
+}
+
+/* ─── Smooth scroll & selection ─── */
+html { scroll-behavior: smooth; }
+::selection { background: rgba(0,103,124,.18); color: var(--primary); }
+
+/* ─── Transitions globales ─── */
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* ══════════════════════════════
+   NAVIGATION — ALL PAGES
+   ══════════════════════════════ */
+
+/* Logo responsive */
+nav img { max-height: 64px; width: auto; }
+
+/* Nav links underline animation */
+nav .nav-item {
+  position: relative;
+  padding-bottom: 2px;
+}
+nav .nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 2px;
+  background: var(--secondary);
+  border-radius: 2px;
+  transition: width .3s ease;
+}
+nav .nav-item:hover::after,
+nav .nav-item.active::after { width: 100%; }
+
+/* Mobile menu slide-in */
+#mobileMenu {
+  transform-origin: top;
+  transition: all .3s cubic-bezier(.16,1,.3,1);
+}
+#mobileMenu.open {
+  display: block !important;
+  animation: slideDown .35s ease forwards;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════
+   HERO SECTION — INDEX
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  .hero-section,
+  section.relative.min-h-\[700px\] {
+    min-height: 520px !important;
+    padding: 6rem 1.25rem 4rem !important;
+  }
+  .hero-section h1,
+  section.relative.min-h-\[700px\] h1 {
+    font-size: clamp(1.8rem, 7vw, 3rem) !important;
+    line-height: 1.2 !important;
+  }
+  .hero-section p {
+    font-size: 1rem !important;
+  }
+  /* Stack buttons */
+  .hero-section .flex.flex-col,
+  section .flex.flex-col.sm\:flex-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .hero-section a, section.relative a {
+    text-align: center;
+  }
+}
+
+/* ══════════════════════════════
+   BENTO GRID — INDEX
+   ══════════════════════════════ */
+@media (max-width: 640px) {
+  .bento-card {
+    padding: 1.25rem !important;
+  }
+  .bento-card img {
+    height: 160px !important;
+  }
+}
+
+/* ══════════════════════════════
+   CTA SECTION — INDEX
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  .cta-container {
+    flex-direction: column !important;
+  }
+  .cta-container .md\:w-1\/2 {
+    width: 100% !important;
+  }
+  .cta-container img {
+    min-height: 200px !important;
+    max-height: 240px !important;
+  }
+  .cta-container a {
+    display: block;
+    text-align: center;
+    padding: 0.875rem !important;
+  }
+}
+
+/* ══════════════════════════════
+   PROGRAMME PAGE
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  /* Programme timeline */
+  .programme-timeline .grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .programme-card {
+    padding: 1rem !important;
+  }
+  /* Schedule table scrollable on mobile */
+  .schedule-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ══════════════════════════════
+   CONTACT PAGE
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  .contact-grid,
+  .lg\:grid-cols-12 {
+    grid-template-columns: 1fr !important;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 16px !important; /* prevents iOS zoom */
+  }
+}
+
+/* ══════════════════════════════
+   CONNEXION / INSCRIPTION PAGES
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  /* Hide hero panel, show only form */
+  .auth-hero {
+    display: none !important;
+  }
+  .auth-form-section {
+    width: 100% !important;
+    padding: 1.5rem !important;
+  }
+  .glass-card {
+    padding: 1.5rem !important;
+    border-radius: 1.25rem !important;
+  }
+  /* Input zoom prevention */
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* ══════════════════════════════
+   DASHBOARD — SIDEBAR & LAYOUT
+   ══════════════════════════════ */
+
+/* Sidebar overlay on mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,32,69,.5);
+  backdrop-filter: blur(4px);
+  z-index: 40;
+}
+.sidebar-overlay.active { display: block; }
+
+@media (max-width: 768px) {
+  /* Dashboard main content takes full width */
+  #dashboardContent,
+  main.ml-72 {
+    margin-left: 0 !important;
+  }
+  /* Cards in dashboard stack */
+  .dashboard-grid,
+  .grid.grid-cols-1.md\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+  /* Stats numbers smaller */
+  .text-4xl { font-size: 2rem !important; }
+  /* Badge section stack */
+  .badge-section .flex {
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Premium card no hover lift on touch */
+  .premium-card:hover {
+    transform: none !important;
+  }
+  /* Header adjustments */
+  header.sticky { padding: 0 1rem !important; }
+  /* Section title shorter */
+  #sectionTitle { font-size: 1rem !important; }
+}
+
+/* ══════════════════════════════
+   MODAL — RECOVERY & PROJECT
+   ══════════════════════════════ */
+@media (max-width: 480px) {
+  #recoveryModal > div,
+  #projectModal > div {
+    border-radius: 1.25rem !important;
+    padding: 1.25rem !important;
+    margin: 0.75rem !important;
+  }
+}
+
+/* ══════════════════════════════
+   LEGAL PAGES — CONFIDENTIALITE & MENTIONS
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  .legal-content section {
+    padding: 1.25rem !important;
+  }
+  .legal-content h1 {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* ══════════════════════════════
+   PREMIUM MICRO-ANIMATIONS (global)
+   ══════════════════════════════ */
+
+/* Fade in up — page load */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .9s cubic-bezier(.16,1,.3,1),
+              transform .9s cubic-bezier(.16,1,.3,1);
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.delay-100 { transition-delay: .1s !important; }
+.delay-200 { transition-delay: .2s !important; }
+.delay-300 { transition-delay: .3s !important; }
+.delay-400 { transition-delay: .4s !important; }
+
+/* Shine on buttons */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.25) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform .5s ease;
+}
+.btn-shine:hover::after { transform: translateX(100%); }
+
+/* Glass card premium */
+.glass-premium {
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.5);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Floating animation (softer) */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.float-soft { animation: float-soft 4s ease-in-out infinite; }
+
+/* Glow accent */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,133,50,.25); }
+  50%       { box-shadow: 0 0 0 12px rgba(232,133,50,.0); }
+}
+.glow-accent { animation: glow-pulse 2.5s infinite; }
+
+/* ══════════════════════════════
+   TYPOGRAPHY — FLUID SCALE
+   ══════════════════════════════ */
+h1 { font-size: clamp(1.75rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.35rem, 3.5vw, 2.5rem); }
+h3 { font-size: clamp(1.1rem, 2.5vw, 1.75rem); }
+
+/* ══════════════════════════════
+   CUSTOM SCROLLBAR (premium)
+   ══════════════════════════════ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #94a3b8, #cbd5e1);
+  border-radius: 4px;
+  border: 2px solid #f1f5f9;
+}
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+/* ══════════════════════════════
+   FOCUS ACCESSIBILITY
+   ══════════════════════════════ */
+:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ══════════════════════════════
+   PRINT UTILITY
+   ══════════════════════════════ */
+@media print {
+  nav, footer, aside, .mobile-nav, #mobileMenu { display: none !important; }
+  body { background: white !important; color: black !important; }
+}

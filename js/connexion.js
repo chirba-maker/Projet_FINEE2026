@@ -69,4 +69,77 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.togglePass = togglePass;
+
+    // --- RECOVERY MODAL LOGIC ---
+    const recoveryModal = document.getElementById('recoveryModal');
+    const recoveryStep1 = document.getElementById('recoveryStep1');
+    const recoveryStep2 = document.getElementById('recoveryStep2');
+    const recoveryError = document.getElementById('recoveryError');
+    let targetUserEmail = "";
+
+    window.openRecoveryModal = () => {
+        if (!recoveryModal) return;
+        recoveryModal.classList.remove('hidden');
+        recoveryModal.classList.add('flex');
+        recoveryStep1.classList.remove('hidden');
+        recoveryStep2.classList.add('hidden');
+        recoveryError.classList.add('hidden');
+    };
+
+    window.closeRecoveryModal = () => {
+        if (!recoveryModal) return;
+        recoveryModal.classList.add('hidden');
+        recoveryModal.classList.remove('flex');
+    };
+
+    window.handleRecoveryVerify = () => {
+        const email = document.getElementById('recoveryEmail').value.trim();
+        if (!email) {
+            recoveryError.textContent = "Veuillez entrer votre email";
+            recoveryError.classList.remove('hidden');
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('finee_users')) || [];
+        const user = users.find(u => u.email === email);
+
+        if (user) {
+            targetUserEmail = email;
+            recoveryStep1.classList.add('hidden');
+            recoveryStep2.classList.remove('hidden');
+            recoveryError.classList.add('hidden');
+        } else {
+            recoveryError.textContent = "Email non trouvé dans notre base";
+            recoveryError.classList.remove('hidden');
+        }
+    };
+
+    window.handleRecoveryReset = () => {
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmNewPassword').value;
+
+        if (!newPass || newPass.length < 4) {
+            recoveryError.textContent = "Le mot de passe est trop court";
+            recoveryError.classList.remove('hidden');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            recoveryError.textContent = "Les mots de passe ne correspondent pas";
+            recoveryError.classList.remove('hidden');
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem('finee_users')) || [];
+        const userIndex = users.findIndex(u => u.email === targetUserEmail);
+
+        if (userIndex !== -1) {
+            users[userIndex].password = newPass;
+            localStorage.setItem('finee_users', JSON.stringify(users));
+            
+            // Success animation or alert
+            alert("Succès ! Votre mot de passe a été mis à jour.");
+            closeRecoveryModal();
+        }
+    };
 });

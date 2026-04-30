@@ -72,13 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Update banner blob image
+        // Update banner profile image (Circular)
         const welcomeUserImg = document.getElementById('welcomeUserImg');
         if (welcomeUserImg && profileImg) {
-            welcomeUserImg.setAttribute('href', profileImg);
-            welcomeUserImg.style.opacity = "1";
-        } else if (welcomeUserImg) {
-            welcomeUserImg.style.opacity = "0"; // Hide if no image
+            welcomeUserImg.src = profileImg;
+            welcomeUserImg.classList.remove('opacity-0');
+            welcomeUserImg.classList.add('opacity-100');
         }
     }
 

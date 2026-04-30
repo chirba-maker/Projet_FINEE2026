@@ -122,6 +122,7 @@
                         <div class="space-y-2">
                             <div class="flex justify-between items-center ml-1">
                                 <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="password">Mot de passe</label>
+                                <button type="button" onclick="openRecoveryModal()" class="text-[10px] font-black text-secondary hover:underline uppercase tracking-widest">Mot de passe oublié ?</button>
                             </div>
                             <div class="relative group">
                                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-[20px]">lock</span>
@@ -149,6 +150,69 @@
             </div>
         </section>
     </main>
+
+    <!-- Password Recovery Modal -->
+    <div id="recoveryModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 bg-primary/40 backdrop-blur-md animate-fade-in">
+        <div class="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl relative overflow-hidden animate-slide-up">
+            <!-- Decorative circle -->
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl"></div>
+            
+            <div class="relative">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-2xl">lock_reset</span>
+                    </div>
+                    <button onclick="closeRecoveryModal()" class="w-10 h-10 rounded-xl hover:bg-slate-50 text-slate-400 transition-colors flex items-center justify-center">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <div id="recoveryStep1">
+                    <h3 class="text-xl font-black text-primary mb-2">Réinitialisation</h3>
+                    <p class="text-sm text-slate-500 font-medium mb-6 leading-relaxed">Saisissez votre email universitaire pour recevoir un nouveau mot de passe.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-1">Email Universitaire</label>
+                            <input id="recoveryEmail" type="email" placeholder="votre.nom@univ-labe.edu.gn" class="w-full px-4 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-secondary transition-all outline-none text-sm font-bold">
+                        </div>
+                        <button onclick="handleRecoveryVerify()" class="w-full bg-primary text-white font-black text-[11px] uppercase tracking-widest py-4 rounded-xl shadow-lg hover:shadow-xl transition-all">Vérifier mon compte</button>
+                    </div>
+                </div>
+
+                <div id="recoveryStep2" class="hidden">
+                    <h3 class="text-xl font-black text-primary mb-2">Nouveau Mot de Passe</h3>
+                    <p class="text-sm text-slate-500 font-medium mb-6 leading-relaxed">Veuillez définir votre nouveau mot de passe sécurisé.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-1">Nouveau Mot de Passe</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-[18px]">lock</span>
+                                <input id="newPassword" type="password" placeholder="••••••••" class="w-full pl-10 pr-10 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-secondary transition-all outline-none text-sm font-bold">
+                                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary p-1" onclick="togglePass('newPassword', 'eyeIconNew')" type="button">
+                                    <span class="material-symbols-outlined text-[18px]" id="eyeIconNew">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-primary/60 uppercase tracking-widest ml-1">Confirmer le Mot de Passe</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-[18px]">lock_clock</span>
+                                <input id="confirmNewPassword" type="password" placeholder="••••••••" class="w-full pl-10 pr-10 py-4 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-secondary transition-all outline-none text-sm font-bold">
+                                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary p-1" onclick="togglePass('confirmNewPassword', 'eyeIconConfirm')" type="button">
+                                    <span class="material-symbols-outlined text-[18px]" id="eyeIconConfirm">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+                        <button onclick="handleRecoveryReset()" class="w-full bg-secondary text-white font-black text-[11px] uppercase tracking-widest py-4 rounded-xl shadow-lg hover:shadow-xl transition-all">Mettre à jour</button>
+                    </div>
+                </div>
+
+                <div id="recoveryError" class="mt-4 text-red-500 text-[10px] font-black uppercase text-center hidden italic">Email non trouvé</div>
+            </div>
+        </div>
+    </div>
 
     <script src="../js/connexion.js"></script>
 </body>

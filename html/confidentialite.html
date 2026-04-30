@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="light" lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Politique de Confidentialité - FINEE 2026</title>
+    <script src="../lib/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0" />
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary": "#1A365D",
+                        "secondary": "#00B5D8",
+                        "background": "#f7fafc",
+                        "on-surface": "#181c1e"
+                }
+              }
+            }
+          }
+    </script>
+    <link rel="stylesheet" href="../css/footer_premium.css">
+</head>
+<body class="bg-background text-on-surface font-sans antialiased overflow-x-hidden">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="grid grid-cols-3 items-center h-24 px-6 lg:px-12 max-w-7xl mx-auto">
+            <div class="flex items-center justify-start h-full py-0">
+                <a href="index.html" class="block">
+                    <img src="../assets/finee_2026_logo.svg" alt="FINEE 2026 Logo" class="h-20 w-auto drop-shadow-lg hover:scale-105 transition-transform duration-300">
+                </a>
+            </div>
+            <div class="hidden md:flex justify-center items-center space-x-10 text-base font-bold">
+                <a class="text-slate-600 hover:text-primary transition-colors" href="index.html">Accueil</a>
+                <a class="text-slate-600 hover:text-primary transition-colors" href="programme.html">Programme</a>
+                <a class="text-slate-600 hover:text-primary transition-colors" href="contact.html">Contact</a>
+            </div>
+            <div class="flex justify-end items-center gap-4">
+                <div class="hidden md:flex items-center gap-4" id="headerActions">
+                    <!-- Session handling via JS -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-40 pb-20 px-6 max-w-4xl mx-auto">
+        <h1 class="text-4xl font-black text-primary mb-8 animate-fade-in">Politique de Confidentialité</h1>
+        
+        <div class="space-y-8 text-slate-600 leading-relaxed">
+            <section class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">shield_person</span>
+                    Collecte des Données
+                </h2>
+                <p>Dans le cadre du Forum d'Innovation et d'Entrepreneuriat (FINEE 2026), l'Université de Labé collecte les données suivantes :</p>
+                <ul class="list-disc ml-6 mt-4 space-y-2">
+                    <li>Nom, prénom et email institutionnel.</li>
+                    <li>Faculté et département d'origine.</li>
+                    <li>Photos de profil pour la génération des badges numériques.</li>
+                    <li>Détails des projets soumis au forum.</li>
+                </ul>
+            </section>
+
+            <section class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">verified_user</span>
+                    Utilisation des Données
+                </h2>
+                <p>Vos informations sont utilisées exclusivement pour :</p>
+                <ul class="list-disc ml-6 mt-4 space-y-2">
+                    <li>La gestion administrative des inscriptions au forum.</li>
+                    <li>L'édition des badges de participation officiels.</li>
+                    <li>Le suivi de l'avancement de vos projets par les jurys.</li>
+                    <li>La communication relative aux événements de FINEE 2026.</li>
+                </ul>
+            </section>
+
+            <section class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">storage</span>
+                    Stockage et Sécurité
+                </h2>
+                <p>Pour cette version prototype, les données sont stockées localement dans votre navigateur via l'API <strong>LocalStorage</strong>. Aucune donnée n'est transmise à des serveurs tiers sans votre consentement explicite.</p>
+            </section>
+
+            <section class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+                <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">gavel</span>
+                    Vos Droits
+                </h2>
+                <p>Conformément aux normes en vigueur, tout étudiant dispose d'un droit d'accès, de rectification et de suppression de ses données. Vous pouvez modifier vos informations à tout moment via l'Espace Paramètres de votre tableau de bord.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-topline"></div>
+      <div class="footer-main max-w-7xl mx-auto">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <a href="index.html">
+              <img src="../assets/finee_2026_logo.svg" alt="FINEE 2026 Logo">
+            </a>
+          </div>
+          <p class="brand-desc">Le rendez-vous majeur de l'innovation et de l'entrepreneuriat étudiant à l'Université de Labé.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Liens Rapides</h4>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="programme.html">Programme</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Légal</h4>
+          <ul>
+            <li><a href="confidentialite.html">Confidentialité</a></li>
+            <li><a href="mentions_legales.html">Mentions légales</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="copy">© 2026 FINEE Forum. Université de Labé — Tous droits réservés.</p>
+      </div>
+    </footer>
+
+    <script>
+        // Update header based on session
+        const session = JSON.parse(localStorage.getItem('finee_session'));
+        const headerActions = document.getElementById('headerActions');
+        if (session) {
+            headerActions.innerHTML = `<a href="dashboard.html" class="px-5 py-2 text-sm font-semibold rounded-lg bg-secondary text-white active:scale-95 transition-transform">Mon Espace</a>`;
+        } else {
+            headerActions.innerHTML = `
+                <a href="connexion.html" class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg active:scale-95 transition-transform">Connexion</a>
+                <a href="inscription.html" class="px-5 py-2 text-sm font-semibold rounded-lg bg-secondary text-white active:scale-95 transition-transform">S'inscrire</a>
+            `;
+        }
+    </script>
+</body>
+</html>
