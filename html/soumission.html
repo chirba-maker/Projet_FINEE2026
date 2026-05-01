@@ -158,10 +158,19 @@
                             </div>
 
                             <div class="input-group group">
-                                <label class="block text-[11px] font-black text-primary/40 uppercase tracking-widest mb-2 ml-1 transition-colors group-focus-within:text-primary">Description Courte</label>
                                 <textarea id="projectShortDesc" required rows="3" placeholder="Résumez votre projet en une phrase d'impact..." 
                                           class="w-full p-5 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary/10 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-primary"></textarea>
                                 <p class="text-[9px] text-slate-300 font-bold mt-2 uppercase tracking-widest text-right">Max 150 caractères</p>
+                            </div>
+
+                            <div class="input-group group">
+                                <label class="block text-[11px] font-black text-primary/40 uppercase tracking-widest mb-2 ml-1 transition-colors group-focus-within:text-primary">Lien du projet (Optionnel)</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors group-focus-within:text-primary">link</span>
+                                    <input type="url" id="projectLink" placeholder="https://votre-projet.netlify.app" 
+                                           class="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary/10 focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-primary">
+                                </div>
+                                <p class="text-[9px] text-slate-300 font-bold mt-2 uppercase tracking-widest">Ex: GitHub, Netlify, Demo Vidéo...</p>
                             </div>
                         </div>
 

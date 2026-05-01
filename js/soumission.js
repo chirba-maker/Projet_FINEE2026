@@ -244,6 +244,7 @@ function saveProject() {
         problematique: document.getElementById("projectProblem").value,
         solution: document.getElementById("projectSolution").value,
         equipe: document.getElementById("projectTeam").value,
+        lien: document.getElementById("projectLink").value,
         documents: selectedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
         user_id: session.id,
         prenom: session.firstname,

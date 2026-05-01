@@ -427,8 +427,10 @@
                                             <p class="text-[8px] text-white/40 uppercase font-black tracking-widest">Session Officielle</p>
                                             <p class="text-[10px] text-secondary font-black uppercase tracking-widest">Accès Exécutif</p>
                                         </div>
-                                        <div class="w-20 h-20 bg-white rounded-[24px] p-2 shadow-2xl border border-secondary/30 cyan-glow">
-                                            <img id="badgeQRCode" src="" alt="QR" class="w-full h-full object-contain rounded-lg">
+                                        <div class="w-20 h-20 bg-white rounded-[24px] p-2 shadow-2xl border border-secondary/30 cyan-glow hover:scale-110 transition-transform cursor-pointer">
+                                            <a id="badgeQRLink" href="#" target="_blank" title="Cliquez pour simuler un scan">
+                                                <img id="badgeQRCode" src="" alt="QR" class="w-full h-full object-contain rounded-lg">
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -616,6 +618,16 @@
                         <span class="material-symbols-outlined text-sm">groups</span> Équipe
                     </h4>
                     <p class="text-sm text-slate-500 leading-relaxed" id="modalProjectTeam">Membres de l'équipe...</p>
+                </div>
+            </div>
+
+            <!-- Ressources & Fichiers -->
+            <div class="space-y-4">
+                <h4 class="text-xs font-black text-primary uppercase tracking-widest flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">attachment</span> Ressources & Fichiers
+                </h4>
+                <div id="modalProjectResources" class="space-y-3">
+                    <!-- Files and Links will be injected here -->
                 </div>
             </div>
 

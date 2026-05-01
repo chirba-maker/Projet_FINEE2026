@@ -407,9 +407,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Dynamic QR Code (Pointing to live verification page)
         const qrImg = document.getElementById('badgeQRCode');
+        const qrLink = document.getElementById('badgeQRLink');
         if (qrImg) {
             const verificationUrl = `${window.location.origin}/html/verify_badge.html?uid=${currentSession.id}`;
             qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verificationUrl)}`;
+            if (qrLink) qrLink.href = verificationUrl;
         }
 
         const downloadBtn = document.getElementById('downloadBadgeBtn');
@@ -578,6 +580,50 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusEl = document.getElementById('modalProjectStatus');
         statusEl.textContent = p.statut;
         statusEl.className = `px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${p.statut === 'Validé' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600'}`;
+
+        // Render Resources (Links and Files)
+        const resourcesContainer = document.getElementById('modalProjectResources');
+        resourcesContainer.innerHTML = '';
+
+        // Add link if exists
+        if (p.lien) {
+            resourcesContainer.innerHTML += `
+                <a href="${p.lien}" target="_blank" class="flex items-center gap-3 p-3 bg-primary/5 rounded-2xl hover:bg-primary/10 transition-all group">
+                    <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-sm">link</span>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-[11px] font-black text-primary truncate">Lien du Projet</p>
+                        <p class="text-[9px] text-slate-400 font-bold truncate">${p.lien}</p>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Add documents if exists
+        if (p.documents && p.documents.length > 0) {
+            p.documents.forEach(doc => {
+                const isZip = doc.name.toLowerCase().endsWith('.zip');
+                const isPdf = doc.name.toLowerCase().endsWith('.pdf');
+                const icon = isZip ? 'folder_zip' : (isPdf ? 'picture_as_pdf' : 'description');
+                
+                resourcesContainer.innerHTML += `
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100 group">
+                        <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-sm">${icon}</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-[11px] font-black text-primary truncate">${doc.name}</p>
+                            <p class="text-[9px] text-slate-400 font-bold">${doc.size} MB</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        if (resourcesContainer.innerHTML === '') {
+            resourcesContainer.innerHTML = `<p class="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic text-center py-4">Aucune ressource déposée</p>`;
+        }
 
         const modal = document.getElementById('projectModal');
         modal.classList.remove('hidden');
