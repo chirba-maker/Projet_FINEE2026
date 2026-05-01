@@ -48,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'index.html';
             }
         });
+    } else {
+        // Clear potential "null" string or incomplete session
+        if (localStorage.getItem('finee_session')) {
+            localStorage.removeItem('finee_session');
+        }
     }
 
     function showWelcomeToast(name) {
@@ -68,11 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(toast);
         setTimeout(() => toast.classList.add('animate-fade-out'), 5000);
         setTimeout(() => toast.remove(), 5500);
-    } else {
-        // Clear potential "null" string or incomplete session
-        if (localStorage.getItem('finee_session')) {
-            localStorage.removeItem('finee_session');
-        }
     }
 
     // Mobile Menu Toggle with icon + overlay
