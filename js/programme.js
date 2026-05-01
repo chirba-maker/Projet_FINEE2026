@@ -232,36 +232,68 @@ async function downloadAgendaPDF() {
         const { jsPDF } = window.jspdf;
         const agendaContainer = document.getElementById('sessions-list');
         
-        // Use html2canvas to capture the agenda
-        // We use a higher scale for better quality
+        // --- 1. Prepare for Capture (High Contrast) ---
+        // We add a temporary class to ensure text is dark enough for the PDF
+        agendaContainer.classList.add('pdf-capture-mode');
+        
+        // Use html2canvas to capture the agenda with high resolution
         const canvas = await html2canvas(agendaContainer, {
-            scale: 2,
+            scale: 3, // Increased scale for ultra-sharp text
             useCORS: true,
             logging: false,
-            backgroundColor: '#F8FAFC'
+            backgroundColor: '#ffffff', // Clean white background
+            windowWidth: 1200 // Force a desktop-like width for consistent layout
         });
 
-        const imgData = canvas.toDataURL('image/png');
+        // Remove temporary high-contrast class
+        agendaContainer.classList.remove('pdf-capture-mode');
+
+        const imgData = canvas.toDataURL('image/png', 1.0);
         const pdf = new jsPDF('p', 'mm', 'a4');
         
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         
-        // Add header to PDF
-        pdf.setFillColor(0, 32, 69); // Primary color
-        pdf.rect(0, 0, pdfWidth, 40, 'F');
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(22);
-        pdf.text('AGENDA OFFICIEL - FINEE 2026', 15, 25);
-        pdf.setFontSize(10);
-        pdf.text('Université de Labé - Guinée', 15, 33);
-
-        // Add the captured agenda
-        pdf.addImage(imgData, 'PNG', 0, 45, pdfWidth, pdfHeight);
+        // --- 2. Branded Header ---
+        pdf.setFillColor(0, 32, 69); // Primary color (#002045)
+        pdf.rect(0, 0, pdfWidth, 45, 'F');
         
+        // Decorative shapes for a premium look
+        pdf.setFillColor(0, 181, 216); // Secondary color (#00B5D8)
+        pdf.rect(0, 42, pdfWidth, 3, 'F');
+        
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(26);
+        pdf.text('FINEE 2026', 15, 22);
+        
+        pdf.setFont("helvetica", "normal");
+        pdf.setFontSize(14);
+        pdf.text('AGENDA OFFICIEL DU FORUM', 15, 30);
+        
+        pdf.setFontSize(9);
+        pdf.setTextColor(173, 199, 247); // Lighter blue
+        pdf.text('Université de Labé • République de Guinée • www.finee-labe.gn', 15, 38);
+
+        // --- 3. Content ---
+        // Add the captured agenda image
+        pdf.addImage(imgData, 'PNG', 0, 50, pdfWidth, pdfHeight);
+        
+        // --- 4. Branded Footer ---
+        const pageCount = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            pdf.setPage(i);
+            pdf.setFillColor(248, 250, 252);
+            pdf.rect(0, pdf.internal.pageSize.getHeight() - 15, pdfWidth, 15, 'F');
+            pdf.setTextColor(100, 116, 139);
+            pdf.setFontSize(8);
+            pdf.text(`Document officiel FINEE 2026 - Page ${i}`, 15, pdf.internal.pageSize.getHeight() - 7);
+            pdf.text('Généré le ' + new Date().toLocaleDateString('fr-FR'), pdfWidth - 45, pdf.internal.pageSize.getHeight() - 7);
+        }
+
         // Save PDF
-        pdf.save('Agenda_FINEE_2026.pdf');
+        pdf.save('Agenda_FINEE_2026_Officiel.pdf');
 
         // Success feedback
         btn.innerHTML = `
