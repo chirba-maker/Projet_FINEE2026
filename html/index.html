@@ -101,23 +101,30 @@
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-100 p-6 space-y-4 shadow-xl">
-            <a class="block text-primary font-bold" href="index.html">Accueil</a>
-            <a class="block text-slate-600 hover:text-primary" href="programme.html">Programme</a>
-            <a class="block text-slate-600 hover:text-primary" href="contact.html">Contact</a>
+        <div id="mobileMenu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-t border-slate-100 p-8 space-y-6 shadow-2xl absolute top-full left-0 w-full animate-slide-down origin-top">
+            <div class="flex flex-col space-y-4">
+                <a class="flex items-center gap-4 text-primary font-black text-lg p-2 hover:bg-slate-50 rounded-xl transition-all" href="index.html">
+                    <span class="material-symbols-outlined">home</span> Accueil
+                </a>
+                <a class="flex items-center gap-4 text-slate-600 font-bold text-lg p-2 hover:bg-slate-50 rounded-xl transition-all" href="programme.html">
+                    <span class="material-symbols-outlined">calendar_today</span> Programme
+                </a>
+                <a class="flex items-center gap-4 text-slate-600 font-bold text-lg p-2 hover:bg-slate-50 rounded-xl transition-all" href="contact.html">
+                    <span class="material-symbols-outlined">mail</span> Contact
+                </a>
+            </div>
             <hr class="border-slate-100">
-            <div id="mobileHeaderActions" class="space-y-3">
-                <a href="connexion.html" class="block w-full text-center px-5 py-3 text-sm font-semibold text-primary border border-primary rounded-lg">Connexion</a>
-                <a href="inscription.html" class="block w-full text-center px-5 py-3 text-sm font-semibold rounded-lg bg-on-tertiary-container text-white">S'inscrire</a>
+            <div id="mobileHeaderActions" class="flex flex-col gap-4">
+                <a href="connexion.html" class="w-full text-center py-4 text-sm font-black uppercase tracking-widest text-primary border-2 border-primary rounded-2xl active:scale-95 transition-all">Connexion</a>
+                <a href="inscription.html" class="w-full text-center py-4 text-sm font-black uppercase tracking-widest rounded-2xl bg-primary text-white shadow-lg shadow-primary/20 active:scale-95 transition-all">S'inscrire</a>
             </div>
         </div>
+        <div id="menuOverlay" class="fixed inset-0 bg-primary/20 backdrop-blur-sm z-[-1] hidden transition-all duration-500 opacity-0 active:opacity-100 active:block"></div>
         <!-- Scroll Progress Bar -->
         <div class="absolute bottom-0 left-0 w-full h-[3px] bg-slate-100 overflow-hidden">
             <div id="scrollProgress" class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 w-0 transition-all duration-300"></div>
         </div>
     </nav>
-    <!-- Mobile menu overlay -->
-    <div id="menuOverlay" class="sidebar-overlay"></div>
 
     <main class="pt-24">
         <!-- Hero Section -->

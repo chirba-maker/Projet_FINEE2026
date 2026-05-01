@@ -405,11 +405,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (els.id) els.id.textContent = `#F26-${currentSession.id.toString().slice(-4)}`;
 
-        // Dynamic QR Code
+        // Dynamic QR Code (Pointing to live verification page)
         const qrImg = document.getElementById('badgeQRCode');
         if (qrImg) {
-            const qrData = encodeURIComponent(`FINEE2026-${currentSession.firstname}-${currentSession.lastname}-${currentSession.id}`);
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+            const verificationUrl = `${window.location.origin}/html/verify_badge.html?uid=${currentSession.id}`;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verificationUrl)}`;
         }
 
         const downloadBtn = document.getElementById('downloadBadgeBtn');
