@@ -91,25 +91,25 @@ function initNavigation() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    if (session) {
+    if (session && session.email) {
         const update = (container) => {
             if (container) {
                 container.innerHTML = `
                     <a href="dashboard.html" class="px-5 py-2 text-sm font-bold text-primary border border-primary rounded-lg flex items-center gap-2">
                         <span class="material-symbols-outlined text-sm">dashboard</span> Mon Espace
                     </a>
-                    <button class="logoutBtn px-5 py-2 text-sm font-bold rounded-lg bg-slate-100 text-slate-500">Déconnexion</button>
+                    <button class="logoutBtn px-5 py-2 text-sm font-bold rounded-lg bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all">Déconnexion</button>
                 `;
             }
         };
         update(headerActions);
         update(mobileHeaderActions);
         
-        document.querySelectorAll('.logoutBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('logoutBtn')) {
                 localStorage.removeItem('finee_session');
-                window.location.reload();
-            });
+                window.location.href = 'index.html';
+            }
         });
     }
 

@@ -3,28 +3,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('finee_session'));
     const headerActions = document.getElementById('headerActions');
     const mobileHeaderActions = document.getElementById('mobileHeaderActions');
+    const heroCtas = document.querySelector('.relative.z-10.max-w-4xl .flex'); // Hero buttons
 
-    const updateHeaders = (container) => {
-        if (!container) return;
-        container.innerHTML = `
+    const updateUIForLoggedInUser = () => {
+        const dashboardBtnHtml = `
             <a href="dashboard.html" class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg active:scale-95 transition-transform flex items-center justify-center gap-2">
                 <span class="material-symbols-outlined text-sm">dashboard</span> Mon Espace
             </a>
             <button class="logoutBtn px-5 py-2 text-sm font-semibold rounded-lg bg-slate-100 text-slate-500 hover:bg-red-50 hover:text-red-600 active:scale-95 transition-all">Déconnexion</button>
         `;
+
+        if (headerActions) headerActions.innerHTML = dashboardBtnHtml;
+        if (mobileHeaderActions) mobileHeaderActions.innerHTML = dashboardBtnHtml;
+
+        // Update Hero section CTAs if they exist
+        if (heroCtas) {
+            heroCtas.innerHTML = `
+                <a href="dashboard.html" class="bg-on-tertiary-container hover:bg-orange-600 text-white font-bold px-10 py-4 rounded-lg shadow-xl active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    Accéder à mon Espace
+                    <span class="material-symbols-outlined">dashboard</span>
+                </a>
+                <a href="programme.html" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold px-10 py-4 rounded-lg border border-white/30 active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">calendar_today</span>
+                    Voir le Programme
+                </a>
+            `;
+        }
     };
 
-    if (session) {
-        updateHeaders(headerActions);
-        updateHeaders(mobileHeaderActions);
+    if (session && session.email) {
+        updateUIForLoggedInUser();
         
-        document.querySelectorAll('.logoutBtn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        // Use event delegation for logout buttons (dynamic content)
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('logoutBtn')) {
                 e.preventDefault();
                 localStorage.removeItem('finee_session');
-                window.location.reload();
-            });
+                window.location.href = 'index.html';
+            }
         });
+    } else {
+        // Clear potential "null" string or incomplete session
+        if (localStorage.getItem('finee_session')) {
+            localStorage.removeItem('finee_session');
+        }
     }
 
     // Mobile Menu Toggle with icon + overlay

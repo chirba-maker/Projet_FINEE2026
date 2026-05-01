@@ -19,15 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    if (session) {
+    if (session && session.email) {
         updateHeaders(headerActions);
         updateHeaders(mobileHeaderActions);
         
-        document.querySelectorAll('.logoutBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('logoutBtn')) {
                 localStorage.removeItem('finee_session');
-                window.location.reload();
-            });
+                window.location.href = 'index.html';
+            }
         });
     }
 

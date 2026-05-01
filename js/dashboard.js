@@ -5,7 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const session = JSON.parse(localStorage.getItem('finee_session'));
-    if (!session) {
+    if (!session || !session.email) {
         window.location.href = 'connexion.html';
         return;
     }
