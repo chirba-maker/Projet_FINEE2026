@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (session && session.email) {
         updateUIForLoggedInUser();
         
+        // Show welcome toast if flag exists
+        if (localStorage.getItem('finee_welcome_toast')) {
+            showWelcomeToast(session.firstname);
+            localStorage.removeItem('finee_welcome_toast');
+        }
+
         // Use event delegation for logout buttons (dynamic content)
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('logoutBtn')) {
@@ -42,6 +48,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'index.html';
             }
         });
+    }
+
+    function showWelcomeToast(name) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-8 right-8 z-[100] bg-white border-l-4 border-secondary p-6 rounded-2xl shadow-2xl flex items-center gap-4 animate-slide-up';
+        toast.innerHTML = `
+            <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined">waving_hand</span>
+            </div>
+            <div>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Bon retour !</p>
+                <p class="text-sm font-black text-primary">Ravi de vous revoir, ${name}</p>
+            </div>
+            <button onclick="this.parentElement.remove()" class="ml-4 text-slate-300 hover:text-slate-500">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('animate-fade-out'), 5000);
+        setTimeout(() => toast.remove(), 5500);
     } else {
         // Clear potential "null" string or incomplete session
         if (localStorage.getItem('finee_session')) {

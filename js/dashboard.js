@@ -558,7 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('finee_session');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
     }
 

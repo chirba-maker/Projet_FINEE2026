@@ -186,3 +186,22 @@ body {
     opacity: 1;
 }
 
+
+/* Toast Animations */
+@keyframes slideUpToast {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOutToast {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(20px); opacity: 0; }
+}
+
+.animate-slide-up {
+    animation: slideUpToast 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-out {
+    animation: fadeOutToast 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

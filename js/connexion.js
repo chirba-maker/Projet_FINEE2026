@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 setTimeout(() => {
                     localStorage.setItem('finee_session', JSON.stringify(user));
+                    localStorage.setItem('finee_welcome_toast', 'true'); // Flag for index page
                     window.location.href = 'index.html';
                 }, 800);
             } else {

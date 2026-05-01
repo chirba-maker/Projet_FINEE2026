@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Automatically log in the user
                 localStorage.setItem('finee_session', JSON.stringify(newUser));
+                localStorage.setItem('finee_welcome_toast', 'true');
 
                 if (successModal) {
                     successModal.classList.remove('hidden');

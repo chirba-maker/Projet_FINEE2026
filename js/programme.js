@@ -108,7 +108,7 @@ function initNavigation() {
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('logoutBtn')) {
                 localStorage.removeItem('finee_session');
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             }
         });
     }
