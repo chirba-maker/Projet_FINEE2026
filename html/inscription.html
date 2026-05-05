@@ -114,84 +114,114 @@
         <section class="w-full md:w-1/2 bg-[#F8FAFC] flex items-center justify-center p-4 md:p-8">
             <div class="bg-white w-full max-w-xl p-8 rounded-3xl shadow-2xl shadow-primary/5 border border-slate-50">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-black text-primary mb-1 flex items-center justify-between">
+                    <h2 id="formTitle" class="text-3xl font-black text-primary mb-1 flex items-center justify-between">
                         Inscription Premium
                         <a href="../index.html" class="flex items-center justify-center w-10 h-10 bg-slate-100 text-slate-400 hover:text-primary hover:bg-slate-200 rounded-xl transition-all" title="Retour à l'accueil">
                             <span class="material-symbols-outlined text-[20px]">home</span>
                         </a>
                     </h2>
-                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Forum de l'Innovation Numérique</p>
+                    <p id="formSubtitle" class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Forum de l'Innovation Numérique</p>
                 </div>
                 <form id="registrationForm" class="space-y-4">
+                    <!-- Identity Section -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1">
                             <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="nom">Nom</label>
-                            <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="nom" name="nom" placeholder=" Saissisez votre Nom ici " required type="text"/>
+                            <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="nom" name="nom" placeholder="Votre nom" required type="text"/>
                         </div>
                         <div class="space-y-1">
                             <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="prenom">Prénom</label>
-                            <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="prenom" name="prenom" placeholder=" Saissisez votre Prénom ici " required type="text"/>
+                            <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="prenom" name="prenom" placeholder="Votre prénom" required type="text"/>
                         </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="email">Adresse Email Universitaire</label>
-                        <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="email" name="email" placeholder=" ex: exemple@gmail.com " required type="email"/>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1">
-                            <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="sexe">Sexe</label>
-                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="sexe" name="sexe" required>
-                                <option value="">Sélectionner</option>
-                                <option value="Homme">Homme</option>
-                                <option value="Femme">Femme</option>
-                            </select>
+                            <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="email">Adresse Email</label>
+                            <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="email" name="email" placeholder="ex: jean.paul@univ.gn" required type="email"/>
                         </div>
                         <div class="space-y-1">
+                            <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="role">Profession</label>
+                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="role" name="role" required>
+                                <option value="user" selected>Étudiant</option>
+                                <option value="admin">Administrateur</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Common Fields -->
+                    <div class="space-y-1">
+                        <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="sexe">Sexe</label>
+                        <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="sexe" name="sexe" required>
+                            <option value="">Sélectionner</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                        </select>
+                    </div>
+
+                    <!-- Student Specific Fields -->
+                    <div id="studentFields" class="space-y-4">
+                        <div class="space-y-1">
                             <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="niveau">Niveau d'études</label>
-                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="niveau" name="niveau" required>
+                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="niveau" name="niveau">
                                 <option value="">Sélectionner</option>
                                 <option value="Licence 1">Licence 1</option>
                                 <option value="Licence 2">Licence 2</option>
                                 <option value="Licence 3">Licence 3</option>
                             </select>
                         </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="faculte">Faculté</label>
+                                <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="faculte" name="faculte">
+                                    <option value="">Choisir</option>
+                                    <option value="FST">Faculté des Sciences et Techniques</option>
+                                    <option value="FLSH">Faculté des Lettres et Sciences Humaines</option>
+                                    <option value="FSAG">Faculté des Sciences Administratives et de Gestion</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="departement">Département</label>
+                                <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="departement" name="departement">
+                                    <option value="">Choisir</option>
+                                    <!-- FST -->
+                                    <option class="dept-option" data-faculty="FST" value="Informatique">Informatique</option>
+                                    <option class="dept-option" data-faculty="FST" value="Mathématiques">Mathématiques</option>
+                                    <option class="dept-option" data-faculty="FST" value="Biologie Appliquée">Biologie Appliquée</option>
+                                    <option class="dept-option" data-faculty="FST" value="Energie Photovoltaïque">Energie Photovoltaïque</option>
+                                    <option class="dept-option" data-faculty="FST" value="Miage">Miage</option>
+                                    <option class="dept-option" data-faculty="FST" value="Chimie">Chimie</option>
+                                    <!-- FLSH -->
+                                    <option class="dept-option" data-faculty="FLSH" value="Langue Arabe">Langue Arabe</option>
+                                    <option class="dept-option" data-faculty="FLSH" value="Sociologie">Sociologie</option>
+                                    <option class="dept-option" data-faculty="FLSH" value="Lettres Modernes">Lettres Modernes</option>
+                                    <option class="dept-option" data-faculty="FLSH" value="Anglais">Anglais</option>
+                                    <!-- FSAG -->
+                                    <option class="dept-option" data-faculty="FSAG" value="Administration Publique">Administration Publique</option>
+                                    <option class="dept-option" data-faculty="FSAG" value="Économie">Économie</option>
+                                    <option class="dept-option" data-faculty="FSAG" value="Gestion">Gestion</option>
+                                    <option class="dept-option" data-faculty="FSAG" value="Économie Sociale et Solidaire">Économie Sociale et Solidaire</option>
+                                    <option class="dept-option" data-faculty="FSAG" value="Economie Statique">Economie Statique</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="faculte">Faculté</label>
-                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="faculte" name="faculte" required>
-                                <option value="">Choisir</option>
-                                <option value="FST"> FST</option>
-                                <option value="FLSH">FLSH</option>
-                                <option value="FSAG">FSAG</option>
-                            </select>
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="departement">Département</label>
-                            <select class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="departement" name="departement" required>
-                                <option value="">Choisir</option>
-                                <option class="dept-option" data-faculty="FST" value="Informatique">Informatique</option>
-                                <option class="dept-option" data-faculty="FST" value="Mathématiques">Mathématiques</option>
-                                <option class="dept-option" data-faculty="FST" value="Biologie Appliquée">Biologie Appliquée</option>
-                                <option class="dept-option" data-faculty="FST" value="Energie Photovoltaïque">Energie Photovoltaïque</option>
-                                <option class="dept-option" data-faculty="FST" value="Miage">Miage</option>
-                                <option class="dept-option" data-faculty="FST" value="Chimie">Chimie</option>
-                                <option class="dept-option" data-faculty="FLSH" value="Langue Arabe">Langue Arabe</option>
-                                <option class="dept-option" data-faculty="FLSH" value="Sociologie">Sociologie</option>
-                                <option class="dept-option" data-faculty="FLSH" value="Lettres Modernes">Lettres Modernes</option>
-                                <option class="dept-option" data-faculty="FLSH" value="Anglais">Anglais</option>
-                                <option class="dept-option" data-faculty="FSAG" value="Administration Publique">Administration Publique</option>
-                                <option class="dept-option" data-faculty="FSAG" value="Économie">Économie</option>
-                                <option class="dept-option" data-faculty="FSAG" value="Gestion">Gestion</option>
-                                <option class="dept-option" data-faculty="FSAG" value="Économie Sociale et Solidaire">Économie Sociale et Solidaire</option>
-                                <option class="dept-option" data-faculty="FSAG" value="Economie Statique">Economie Statique</option>
-                            </select>
+                    <!-- Admin Specific Fields -->
+                    <div id="adminFields" class="space-y-4 hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="birthYear">Année de Naissance</label>
+                                <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="birthYear" name="birthYear" placeholder="Ex: 1985" type="number" min="1950" max="2008"/>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="phone">Numéro de Téléphone</label>
+                                <input class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all outline-none font-bold text-sm" id="phone" name="phone" placeholder="620 00 00 00" type="tel"/>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Passwords -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1">
                             <label class="text-[11px] font-black text-primary/60 uppercase tracking-widest" for="reg-password">Mot de passe</label>

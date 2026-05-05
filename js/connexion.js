@@ -36,6 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- MOCK LOGIN LOGIC (LOCALSTORAGE) ---
             
+            // Initial seed if empty
+            if (!localStorage.getItem('finee_users')) {
+                localStorage.setItem('finee_users', JSON.stringify([
+                    { id: 1, firstname: "Admin", lastname: "FINEE", email: "admin@finee.gn", password: "admin", role: "admin", faculty: "Administration", department: "Direction" },
+                    { id: 2, firstname: "Mamadou", lastname: "Diallo", email: "user@finee.gn", password: "123", role: "user", faculty: "Génie Informatique", department: "MIAGE" }
+                ]));
+            }
+
             // Get users from localStorage
             const users = JSON.parse(localStorage.getItem('finee_users')) || [];
             
@@ -54,10 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 setTimeout(() => {
                     localStorage.setItem('finee_session', JSON.stringify(user));
-                    localStorage.setItem('finee_welcome_toast', 'true'); // Flag for index page
-                    window.location.href = 'index.html';
+                    localStorage.setItem('finee_welcome_toast', 'true'); 
+                    
+                    // Redirect to dashboard (it will handle roles)
+                    window.location.href = 'dashboard.html';
                 }, 800);
             } else {
+
                 if (errorDiv) {
                     errorDiv.textContent = "Identifiants incorrects ou compte inexistant.";
                     errorDiv.classList.remove('hidden');

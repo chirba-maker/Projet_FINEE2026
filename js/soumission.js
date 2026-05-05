@@ -21,7 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. File Upload Initialization
     initFileUpload();
 
-    // 4. Form Submission
+    // 4. Character Counter
+    initCharCounter();
+
+    // 5. Form Submission
     const form = document.getElementById('submissionForm');
     if (form) {
         form.addEventListener('submit', (e) => {
@@ -31,25 +34,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 6. Real-time Validation
+    initRealTimeValidation();
 });
+
+function initCharCounter() {
+    const desc = document.getElementById('projectShortDesc');
+    const count = document.getElementById('charCount');
+    if (desc && count) {
+        desc.addEventListener('input', () => {
+            const length = desc.value.length;
+            count.textContent = `${length} / 150`;
+            if (length > 150) {
+                count.classList.add('text-red-500');
+                count.classList.remove('text-slate-300');
+            } else {
+                count.classList.remove('text-red-500');
+                count.classList.add('text-slate-300');
+            }
+        });
+    }
+}
+
+function initRealTimeValidation() {
+    const inputs = document.querySelectorAll('input[required], textarea[required], select[required]');
+    inputs.forEach(input => {
+        input.addEventListener('blur', () => {
+            if (input.value.trim()) {
+                input.classList.remove('!border-red-400', 'bg-red-50/10');
+                input.classList.add('border-green-400/20', 'bg-green-50/5');
+            }
+        });
+        input.addEventListener('input', () => {
+            input.classList.remove('!border-red-400', 'bg-red-50/10');
+        });
+    });
+}
 
 function initFileUpload() {
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
-    const fileList = document.getElementById('fileList');
 
     if (!dropZone || !fileInput) return;
 
     dropZone.addEventListener('click', () => fileInput.click());
 
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('border-primary', 'bg-primary/10');
+    ['dragenter', 'dragover'].forEach(event => {
+        dropZone.addEventListener(event, (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-active');
+        });
     });
 
     ['dragleave', 'drop'].forEach(event => {
         dropZone.addEventListener(event, () => {
-            dropZone.classList.remove('border-primary', 'bg-primary/10');
+            dropZone.classList.remove('drag-active');
         });
     });
 
@@ -66,9 +106,13 @@ function initFileUpload() {
 }
 
 function handleFiles(files) {
-    const fileList = document.getElementById('fileList');
-    
     files.forEach(file => {
+        // Validation: Size (Max 15MB)
+        if (file.size > 15 * 1024 * 1024) {
+            alert(`Le fichier ${file.name} est trop lourd (> 15Mo)`);
+            return;
+        }
+
         // Prevent duplicates
         if (selectedFiles.some(f => f.name === file.name)) return;
 
@@ -93,30 +137,33 @@ function renderFileItem(fileObj) {
     
     const div = document.createElement('div');
     div.id = `file-${fileObj.id}`;
-    div.className = "flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm animate-pop relative overflow-hidden group";
+    div.className = "flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm animate-pop relative overflow-hidden group hover:border-secondary/20 transition-all";
     
     div.innerHTML = `
-        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 overflow-hidden border border-slate-100">
+        <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 overflow-hidden border border-slate-50">
             ${isImage ? `<img src="" class="w-full h-full object-cover hidden" id="preview-${fileObj.id}">` : ''}
-            <span class="material-symbols-outlined text-slate-400 ${isImage ? 'block' : ''}" id="icon-${fileObj.id}">
+            <span class="material-symbols-outlined text-slate-300 ${isImage ? 'block' : ''}" id="icon-${fileObj.id}">
                 ${fileObj.type.includes('pdf') ? 'picture_as_pdf' : (fileObj.type.includes('zip') ? 'folder_zip' : 'description')}
             </span>
         </div>
         <div class="flex-grow min-w-0">
-            <p class="text-sm font-black text-primary truncate pr-8">${fileObj.name}</p>
-            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">${fileObj.size} MB</p>
-            <div class="mt-2 h-1 bg-slate-100 rounded-full overflow-hidden">
-                <div id="progress-${fileObj.id}" class="h-full bg-secondary transition-all duration-300" style="width: 0%"></div>
+            <div class="flex justify-between items-start mb-1">
+                <p class="text-xs font-black text-primary truncate pr-6">${fileObj.name}</p>
+                <button type="button" onclick="removeFile(${fileObj.id})" class="text-slate-300 hover:text-red-500 transition-colors">
+                    <span class="material-symbols-outlined text-sm">cancel</span>
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="flex-grow h-1 bg-slate-50 rounded-full overflow-hidden">
+                    <div id="progress-${fileObj.id}" class="h-full bg-secondary transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <span class="text-[8px] font-black text-slate-300 uppercase">${fileObj.size} MB</span>
             </div>
         </div>
-        <button type="button" onclick="removeFile(${fileObj.id})" class="absolute top-4 right-4 w-6 h-6 rounded-full bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all flex items-center justify-center">
-            <span class="material-symbols-outlined text-sm">close</span>
-        </button>
     `;
 
     fileList.appendChild(div);
 
-    // Image Preview
     if (isImage) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -135,17 +182,21 @@ function renderFileItem(fileObj) {
 function simulateUpload(fileObj) {
     let progress = 0;
     const interval = setInterval(() => {
-        progress += Math.random() * 30;
+        progress += Math.random() * 40;
         if (progress >= 100) {
             progress = 100;
             clearInterval(interval);
             const item = document.getElementById(`file-${fileObj.id}`);
-            if (item) item.classList.add('border-green-100', 'bg-green-50/20');
+            if (item) {
+                item.classList.add('bg-green-50/10', 'border-green-100');
+                const bar = document.getElementById(`progress-${fileObj.id}`);
+                if (bar) bar.classList.replace('bg-secondary', 'bg-green-400');
+            }
         }
         const bar = document.getElementById(`progress-${fileObj.id}`);
         if (bar) bar.style.width = progress + '%';
         fileObj.progress = progress;
-    }, 300);
+    }, 400);
 }
 
 window.removeFile = function(id) {
@@ -159,51 +210,36 @@ window.removeFile = function(id) {
 
 function showStep(n) {
     const steps = document.querySelectorAll(".step-content");
-    const dots = document.querySelectorAll(".step-dot");
-    const currentStepText = document.getElementById("currentStepText");
     const tipItems = document.querySelectorAll("#sidebarTips .tip-item");
     
-    if (steps.length === 0) return;
+    steps.forEach(s => s.classList.add('hidden'));
+    steps[n-1].classList.remove('hidden');
 
-    // Update form content visibility
-    steps.forEach(step => step.classList.add("hidden"));
-    steps[n-1].classList.remove("hidden");
-    
-    // Update header dots
-    dots.forEach((dot, index) => {
-        dot.classList.remove("active", "bg-primary", "ring-4", "ring-primary/10");
-        dot.classList.add("bg-slate-200");
-        if (index < n) {
-            dot.classList.add("bg-primary");
-            if (index === n - 1) dot.classList.add("ring-4", "ring-primary/10");
-        }
+    // Sidebar Tips Highlighting
+    tipItems.forEach((item, index) => {
+        item.classList.toggle('active', index === n - 1);
     });
 
-    // Update text
-    if (currentStepText) currentStepText.textContent = n;
+    // Step indicators (Dots if present)
+    const dots = document.querySelectorAll('.step-dot');
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index < n);
+    });
 
-    // Update sidebar tips highlighting
-    if (tipItems.length > 0) {
-        tipItems.forEach((item, index) => {
-            item.classList.remove("active", "opacity-100", "grayscale-0");
-            item.classList.add("opacity-40", "grayscale");
-            if (index === n - 1) {
-                item.classList.add("active", "opacity-100", "grayscale-0");
-            }
-        });
-    }
-
-    // Scroll to top of form
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 window.nextStep = function(n) {
-    if (!validateStep(n)) return;
+    if (!validateStep(n)) {
+        // Feedback visuel sur erreur
+        const activeStep = document.getElementById(`step-${n}`);
+        activeStep.classList.add('error-shake');
+        setTimeout(() => activeStep.classList.remove('error-shake'), 500);
+        return;
+    }
     
     currentStep++;
-    if (currentStep <= totalSteps) {
-        showStep(currentStep);
-    }
+    if (currentStep <= totalSteps) showStep(currentStep);
 }
 
 window.prevStep = function(n) {
@@ -213,57 +249,63 @@ window.prevStep = function(n) {
 }
 
 function validateStep(n) {
-    const currentStepEl = document.getElementById(`step-${n}`);
-    const inputs = currentStepEl.querySelectorAll("input[required], textarea[required], select[required]");
-    let valid = true;
+    const stepEl = document.getElementById(`step-${n}`);
+    const required = stepEl.querySelectorAll('[required]');
+    let isValid = true;
 
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            valid = false;
-            input.classList.add("!border-red-500", "ring-4", "ring-red-500/10");
-            
-            // Add shake animation
-            input.parentElement.classList.add("animate-shake");
-            setTimeout(() => input.parentElement.classList.remove("animate-shake"), 500);
-        } else {
-            input.classList.remove("!border-red-500", "ring-4", "ring-red-500/10");
+    required.forEach(field => {
+        if (field.type === 'checkbox') {
+            if (!field.checked) {
+                isValid = false;
+                field.parentElement.classList.add('text-red-500');
+            } else {
+                field.parentElement.classList.remove('text-red-500');
+            }
+        } else if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('!border-red-400', 'bg-red-50/5');
+        } else if (field.id === 'projectShortDesc' && field.value.length > 150) {
+            isValid = false;
+            field.classList.add('!border-red-400');
         }
     });
 
-    return valid;
+    return isValid;
 }
 
 function saveProject() {
     const session = JSON.parse(localStorage.getItem('finee_session')) || {};
     
-    const projectData = {
+    // Preparation des données
+    const project = {
         id: Date.now(),
-        titre: document.getElementById("projectTitle").value,
-        categorie: document.getElementById("projectCategory").value,
-        description_courte: document.getElementById("projectShortDesc").value,
-        problematique: document.getElementById("projectProblem").value,
-        solution: document.getElementById("projectSolution").value,
-        equipe: document.getElementById("projectTeam").value,
-        lien: document.getElementById("projectLink").value,
-        documents: selectedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
         user_id: session.id,
         prenom: session.firstname,
         nom: session.lastname,
-        faculte: session.faculty,
+        faculte: session.faculty || 'Non spécifié',
+        titre: document.getElementById('projectTitle').value,
+        categorie: document.getElementById('projectCategory').value,
+        description_courte: document.getElementById('projectShortDesc').value,
+        problematique: document.getElementById('projectProblem').value,
+        solution: document.getElementById('projectSolution').value,
+        equipe: document.getElementById('projectTeam').value,
+        lien: document.getElementById('projectLink').value,
         votes: 0,
         statut: "En attente",
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        documents: selectedFiles.map(f => ({ name: f.name, size: f.size, type: f.type }))
     };
-    
-    // Save to localStorage
+
+    // Simulation de sauvegarde (localStorage)
     let projects = JSON.parse(localStorage.getItem('finee_projects')) || [];
-    projects.push(projectData);
+    projects.push(project);
     localStorage.setItem('finee_projects', JSON.stringify(projects));
 
-    // Show success modal
-    const modal = document.getElementById("successModal");
+    // UI Feedback
+    const modal = document.getElementById('successModal');
     if (modal) {
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
     }
 }
+

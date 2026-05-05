@@ -52,24 +52,38 @@
     </div>
 
     <nav class="flex-1 space-y-2">
-        <a href="#" class="nav-link active flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold transition-all" data-section="overview">
-            <span class="material-symbols-outlined">dashboard</span> Vue d'ensemble
-        </a>
-        <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="projects">
-            <span class="material-symbols-outlined">rocket_launch</span> Mes Projets
-        </a>
-        <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="tracker">
-            <span class="material-symbols-outlined">monitoring</span> Suivi d'Avancement
-        </a>
-        <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="voting">
-            <span class="material-symbols-outlined">how_to_vote</span> Vote & Classement
-        </a>
-        <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="participants">
-            <span class="material-symbols-outlined">groups</span> Participants
-        </a>
-        <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="badge">
-            <span class="material-symbols-outlined">badge</span> Mon Badge
-        </a>
+        <!-- Student Links -->
+        <div id="studentLinks" class="space-y-2">
+            <a href="#" class="nav-link active flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold transition-all" data-section="overview">
+                <span class="material-symbols-outlined">dashboard</span> Vue d'ensemble
+            </a>
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="projects">
+                <span class="material-symbols-outlined">rocket_launch</span> Mes Projets
+            </a>
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="tracker">
+                <span class="material-symbols-outlined">monitoring</span> Suivi d'Avancement
+            </a>
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="voting">
+                <span class="material-symbols-outlined">how_to_vote</span> Vote & Classement
+            </a>
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="badge">
+                <span class="material-symbols-outlined">badge</span> Mon Badge
+            </a>
+        </div>
+
+        <!-- Admin Links (Hidden by default) -->
+        <div id="adminLinks" class="space-y-2 hidden">
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="admin-overview">
+                <span class="material-symbols-outlined">analytics</span> Dashboard Global
+            </a>
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="admin-validation">
+                <span class="material-symbols-outlined">verified_user</span> Validation Projets
+            </a>
+            <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="admin-users">
+                <span class="material-symbols-outlined">manage_accounts</span> Utilisateurs
+            </a>
+        </div>
+
         <a href="#" class="nav-link flex items-center gap-4 px-6 py-4 rounded-2xl text-sm font-bold text-slate-400 hover:text-primary transition-all" data-section="settings">
             <span class="material-symbols-outlined">settings</span> Paramètres
         </a>

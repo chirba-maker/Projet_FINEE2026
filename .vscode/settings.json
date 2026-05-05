@@ -1,4 +1,7 @@
 {
     "git.ignoreLimitWarning": true,
-    "liveServer.settings.CustomBrowser": null
+    "liveServer.settings.CustomBrowser": "chrome",
+    "liveServer.settings.port": 5501,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "liveServer.settings.useLocalIp": true
 }
